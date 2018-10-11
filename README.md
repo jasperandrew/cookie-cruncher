@@ -1,2 +1,2 @@
-# cookie-clicker-calculator
+# Cookie Cruncher
 A Cookie Clicker calculator
