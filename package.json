@@ -1,0 +1,31 @@
+{
+  "name": "cookie-cruncher",
+  "version": "1.0.0",
+  "description": "A Cookie Clicker calculator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jasperandrew/cookie-cruncher.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jasperandrew/cookie-cruncher/issues"
+  },
+  "homepage": "https://github.com/jasperandrew/cookie-cruncher#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "http-server": "^0.11.1",
+    "pug-cli": "^1.0.0-alpha6",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "sass": "^1.14.1"
+  }
+}
