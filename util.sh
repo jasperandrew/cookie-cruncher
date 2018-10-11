@@ -41,35 +41,13 @@ html(lang="en")
 
 build () {
 	echo "[Util] Building files..."
-	npx babel src/ -d app/
-	npx sass src/:app/
-	npx pug src/ -o app/
+	npx babel src/ -d docs/
+	npx sass src/:docs/
+	npx pug src/ -o docs/
 }
 
 help () {
 	echo "usage stuff"
-}
-
-setup () {
-	echo "[Util] Performing first-time setup..."
-	# initialize npm, install dependencies
-	npm init -y
-	npm -D i $babel $react $sass $pug $http_server
-
-	# create file structure
-	mkdir -p src/public/{css,js}
-	mkdir -p app/public/{css,js}
-
-	# create basic files
-	IFS='`'
-	echo $babel_config > .babelrc
-	echo $pug_file > ./src/public/index.pug
-	unset IFS
-
-	touch src/public/js/main.jsx
-	touch src/public/css/style.sass
-	
-	wget -P app/public/css/ https://necolas.github.io/normalize.css/8.0.0/normalize.css
 }
 
 start () {
@@ -80,9 +58,9 @@ start () {
 watch () {
 	echo "[Util] Watching files for updates..."
 	trap "kill 0" EXIT
-	npx babel --verbose -w src/ -d app/ &
-	npx sass --watch src/:app/ &
-	npx pug -w src/ -o app/ &
+	npx babel --verbose -w src/ -d docs/ &
+	npx sass --watch src/:docs/ &
+	npx pug -w src/ -o docs/ &
 	wait
 }
 
@@ -96,7 +74,6 @@ elif [[ $# -eq 1 ]]; then
 
 	if [[ $1 == "build" ]]; then build
 	elif [[ $1 == "help" ]]; then help
-	elif [[ $1 == "setup" ]]; then setup
 	elif [[ $1 == "start" ]]; then start
 	elif [[ $1 == "watch" ]]; then watch
 	else echo "[Error] Invalid argument"; help
