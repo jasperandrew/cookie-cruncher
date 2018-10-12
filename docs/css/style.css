@@ -1,5 +1,90 @@
-h1 {
-  color: red;
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Open Sans";
+  font-size: 0.7em;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+
+main {
+  width: 100vw;
+  padding: 3vw;
+}
+
+li {
+  list-style: none;
+}
+
+.button {
+  background: blue;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  z-index: 1;
+}
+
+.settings {
+  display: block;
+  position: fixed;
+  bottom: -200px;
+  left: 0;
+  text-align: center;
+  width: 100vw;
+  height: 200px;
+  transition: 0.3s ease-in-out;
+}
+.settings.open {
+  bottom: -30px;
+}
+.settings label {
+  margin-bottom: 2px;
+  display: block;
+}
+.settings label input {
+  vertical-align: bottom;
+  margin: 0 5px 0 0;
+}
+
+.buildings {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.buildings div {
+  margin: 0;
+}
+.buildings div .title {
+  display: inline-block;
+  text-align: right;
+  width: 100px;
+}
+.buildings div .title.small {
+  font-size: 0.9em;
+}
+.buildings div .title.smaller {
+  font-size: 0.8em;
+}
+.buildings div input {
+  width: 47px;
+  height: 20px;
+  padding: 0 0 0 2px;
+  margin: 0 5px;
+  border-width: 0px 1px 1px 1px;
+  border-style: solid;
+  border-color: grey;
+}
+.buildings div:first-of-type input {
+  border-top: 1px solid grey;
+}
+.buildings div .output {
+  width: 100%;
 }
 
 /*# sourceMappingURL=style.css.map */
