@@ -7,14 +7,31 @@ html(lang="en")
 		link(rel="stylesheet", href="css/normalize.css")
 		link(rel="stylesheet", href="css/style.css")
 		title Cookie Cruncher
+
 	body
 		div(class="menu")
 			div(class="button",onclick="toggleMenu()")
-			-var discounts = ['Divine discount','Season savings','Santa\'s dominion','Faberge egg','Dotjeiess, Spirit of Creation','Summon Crafty Pixies','Fierce Hoarder','Everything must go','Starter kit','Starter kitchen','Short numbers ON']
-			each item in discounts
+				div
+			div(class="border")
+			div(class="buffs")
+				h2 Discount Buffs
+				-var buffs = ['Divine discount','Season savings','Santa\'s dominion','Faberge egg','Dotjeiess, Spirit of Creation','Summon Crafty Pixies','Fierce Hoarder','Everything must go']
+				each item in buffs
+					label
+						input(type="checkbox",name=item.split(' ')[0].split('\'').join('').split(',').join('').toLowerCase())
+						span=item
+			div(class="upgrades")
+				h2 Other Upgrades
+				-var upgrades = ['Starter kit','Starter kitchen']
+				each item in upgrades
+					label
+						input(type="checkbox",name=item.split(' ')[1].split('\'').join('').split(',').join('').toLowerCase())
+						span=item
+			div(class="settings")
+				h2 Settings
 				label
-					input(type="checkbox")
-					=item
+					input(type="checkbox",name='short',checked=true)
+					span Short numbers ON
 		div(class="screen hidden",onclick="toggleMenu()")
 		main
 			h1 Cookie Cruncher
@@ -23,7 +40,7 @@ html(lang="en")
 				each item in bldgs
 					div(id=item)
 						img(alt=item,src="img/"+item+".png")
-						input(type="number",value=0,min=0,max=9999,step=1)
+						input(type="number",min=0,max=9999,step=1)
 						span(class="output")
 
 		script(src="https://unpkg.com/react@16/umd/react.production.min.js", crossorigin)
