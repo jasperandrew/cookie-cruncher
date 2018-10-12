@@ -17,12 +17,12 @@ html(lang="en")
 						input(type="checkbox")
 						=item
 			div(class="buildings")
-				-var bldgs = ['Cursor','Grandma','Farm','Mine','Factory','Bank','Temple','Wizard tower','Shipment','Alchemy lab','Portal','Time machine','Antimatter condenser','Prism','Chancemaker']
+				-var bldgs = ['cursor','grandma','farm','mine','factory','bank','temple','wizard-tower','shipment','alchemy-lab','portal','time-machine','antimatter-condenser','prism','chancemaker']
 				each item in bldgs
-					div(id=item.toLowerCase())
-						span(class="title"+(item.length>7?(item.length>14?' smaller':' small'):''))=item
+					div(id=item)
+						img(alt=item,src="img/"+item+".png")
 						input(type="number",value=0,min=0,max=9999,step=1)
-						span(class="output") 0
+						span(class="output")
 
 		script(src="https://unpkg.com/react@16/umd/react.production.min.js", crossorigin)
 		script(src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js", crossorigin)

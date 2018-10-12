@@ -5,7 +5,6 @@
 
 body
 	font-family: 'Open Sans'
-	font-size: 0.7em
 	user-select: none
 	-moz-user-select: none
 	-webkit-user-select: none
@@ -14,16 +13,13 @@ main
 	width: 100vw
 	padding: 3vw
 
-li
-	list-style: none
-
 .button
 	background: blue
 	position: fixed
 	bottom: 0
 	right: 0
-	width: 30px
-	height: 30px
+	width: 60px
+	height: 60px
 	z-index: 1
 
 .settings
@@ -43,7 +39,9 @@ li
 		display: block
 
 		input
-			vertical-align: bottom
+			position: relative
+			bottom: 1px
+			vertical-align: middle
 			margin: 0 5px 0 0
 
 .buildings
@@ -52,27 +50,22 @@ li
 	flex-direction: column
 
 	div
-		margin: 0
+		$hgt: 25px
 
-		.title
+		img
 			display: inline-block
-			text-align: right
-			width: 100px
-		.title.small
-			font-size: 0.9em
-		.title.smaller
-			font-size: 0.8em
-
-		input
-			width: 47px
-			height: 20px
-			padding: 0 0 0 2px
-			margin: 0 5px
-			border-width: 0px 1px 1px 1px
+			height: 25px
+			background: lightgrey			
+			border-radius: 3px 0 0 3px
+			border-width: 1px 0 1px 1px
 			border-style: solid
 			border-color: grey
-		&:first-of-type input
-			border-top: 1px solid grey
+			vertical-align: top
+			margin: 1px 0
+
+		input
+			height: $hgt
+			margin: 1px 0
 		
 		.output
 			width: 100%
