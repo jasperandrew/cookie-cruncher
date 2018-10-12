@@ -1,5 +1,7 @@
 "use strict";
 
-function toggleClass(target, name) {
-  document.querySelector(target).classList.toggle(name);
+function toggleClass(targets, name) {
+  targets.forEach(function (target) {
+    document.querySelector(target).classList.toggle(name);
+  });
 }
