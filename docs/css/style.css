@@ -15,7 +15,7 @@ main {
   width: 100%;
 }
 
-.settings {
+.menu {
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -27,17 +27,18 @@ main {
   vertical-align: bottom;
   transition: 0.2s ease-in-out;
   height: 50px;
-  z-index: 1;
+  z-index: 2;
   background: lightgrey;
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.6);
 }
-.settings.open {
+.menu.open {
   height: 50vh;
 }
-.settings label {
+.menu label {
   margin-bottom: 2px;
   display: block;
 }
-.settings label input {
+.menu label input {
   position: relative;
   bottom: 1px;
   vertical-align: middle;
@@ -51,11 +52,29 @@ main {
   right: 0;
   width: 50px;
   height: 50px;
-  z-index: 2;
   transition: 0.2s ease-in-out;
 }
 .button.open {
   bottom: calc(50vh - 50px);
+}
+
+.screen {
+  z-index: 1;
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  opacity: 0;
+  transition: 0.3s ease-in-out;
+}
+.screen.open {
+  opacity: 0.3;
+}
+.screen.hidden {
+  display: none;
 }
 
 h1 {
@@ -69,7 +88,7 @@ h1 {
   flex-direction: column;
   position: absolute;
   width: 94vw;
-  padding-bottom: 53px;
+  padding-bottom: 60px;
 }
 .buildings div {
   display: flex;

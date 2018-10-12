@@ -8,13 +8,14 @@ html(lang="en")
 		link(rel="stylesheet", href="css/style.css")
 		title Cookie Cruncher
 	body
-		div(class="settings")
-			div(class="button",onclick="toggleClass(['.settings', '.button'], 'open')")
+		div(class="menu")
+			div(class="button",onclick="toggleMenu()")
 			-var discounts = ['Divine discount','Season savings','Santa\'s dominion','Faberge egg','Dotjeiess, Spirit of Creation','Summon Crafty Pixies','Fierce Hoarder','Everything must go','Starter kit','Starter kitchen','Short numbers ON']
 			each item in discounts
 				label
 					input(type="checkbox")
 					=item
+		div(class="screen hidden",onclick="toggleMenu()")
 		main
 			h1 Cookie Cruncher
 			div(class="buildings")
