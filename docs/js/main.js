@@ -18,22 +18,22 @@ function toggleMenu() {
   document.querySelector('nav').classList.toggle('open');
 }
 
-var BASE_COSTS = {
-  cursor: 15,
-  grandma: 100,
-  farm: 1100,
-  mine: 12000,
-  factory: 130000,
-  bank: 1400000,
-  temple: 20000000,
-  wizardtower: 330000000,
-  shipment: 5100000000,
-  alchemylab: 75000000000,
-  portal: 1000000000000,
-  timemachine: 14000000000000,
-  antimatter: 170000000000000,
-  prism: 2100000000000000,
-  chancemaker: 26000000000000000
+var BASE = {
+  'cursor': 15,
+  'grandma': 100,
+  'farm': 1100,
+  'mine': 12000,
+  'factory': 130000,
+  'bank': 1400000,
+  'temple': 20000000,
+  'wizard-tower': 330000000,
+  'shipment': 5100000000,
+  'alchemy-lab': 75000000000,
+  'portal': 1000000000000,
+  'time-machine': 14000000000000,
+  'antimatter-condenser': 170000000000000,
+  'prism': 2100000000000000,
+  'chancemaker': 26000000000000000
 };
 var SUFFIXES = {
   0: 'n/a',
@@ -190,9 +190,29 @@ function multiplier() {
   return factor;
 }
 
-function buy(building) {
-  var quantity = inputValue('quantity');
-  console.log(quantity);
+function buy(bldg) {
+  var cost = 0,
+      have = parseInt(inputValue(bldg)),
+      tobuy = parseInt(inputValue('quantity')),
+      want = have + tobuy;
+
+  function formula(a, b) {
+    return (Math.pow(1.15, a) - Math.pow(1.15, b)) / 0.15;
+  }
+
+  if (bldg === 'cursor' && isChecked('kit') || bldg === 'grandma' && isChecked('kitchen')) {
+    var free = bldg === 'cursor' ? 10 : 5;
+
+    if (have >= free) {
+      cost = formula(want - free, have - free);
+    } else {
+      cost = want >= free ? free - have + formula(buy - free + have, 0) : tobuy;
+    }
+  } else {
+    cost = formula(want, have);
+  }
+
+  return Math.ceil(cost * BASE[bldg] * multiplier());
 }
 
 function run() {}

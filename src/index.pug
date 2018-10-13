@@ -41,7 +41,7 @@ html(lang="en")
 					h2 Other Upgrades
 					-var upgrades = ['Starter kit','Starter kitchen','Earth Shatterer']
 					each item in upgrades
-						-var itemname = item.split(' ')[0].split('\'').join('').split(',').join('').toLowerCase()
+						-var itemname = item.split(' ')[1].split('\'').join('').split(',').join('').toLowerCase()
 						label
 							input(type="checkbox",name=itemname,value=itemname)
 							span=item

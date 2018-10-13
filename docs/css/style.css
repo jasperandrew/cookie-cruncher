@@ -269,12 +269,13 @@ nav .settings label input[type=radio] {
   appearance: textfield;
   -moz-appearance: textfield;
   -webkit-appearance: textfield;
-  width: 15px;
-  height: 15px;
+  width: 17px;
+  height: 17px;
   margin-left: 4px;
-  opacity: 0.2;
+  opacity: 0.15;
   position: relative;
-  top: 2px;
+  top: 3px;
+  outline: none;
 }
 nav .settings label input[type=radio]:checked {
   opacity: 1;
@@ -282,6 +283,7 @@ nav .settings label input[type=radio]:checked {
 nav .settings label input[value=diamond] {
   background: url("../img/diamond.png");
   background-size: contain;
+  margin-left: 8px;
 }
 nav .settings label input[value=ruby] {
   background: url("../img/ruby.png");
