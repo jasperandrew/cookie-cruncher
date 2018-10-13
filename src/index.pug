@@ -9,7 +9,7 @@ html(lang="en")
 		title Cookie Cruncher
 
 	body
-		nav
+		nav(class="open")
 			div(class="button",onclick="toggleMenu()")
 				div
 			div(class="controls")
@@ -19,33 +19,43 @@ html(lang="en")
 					span
 				input(type="number",name="quantity")
 				label(class="nums")
-					input(type="checkbox",name='numbers',checked=true)
+					input(type="checkbox",name='numbers',checked)
 					span Short nums 
 			div(class="settings")
 				div(class="border")
 				div(class="buffs")
 					h2 Discount Buffs
-					-var buffs = ['Divine discount','Season savings','Santa\'s dominion','Faberge egg','Dotjeiess, Spirit of Creation','Summon Crafty Pixies','Fierce Hoarder','Everything must go']
+					-var buffs = ['Divine discount','Season savings','Santa\'s dominion','Faberge egg','Everything must go','Fierce Hoarder','Summon Crafty Pixies']
 					each item in buffs
+						-var itemname = item.split(' ')[0].split('\'').join('').split(',').join('').toLowerCase()
 						label
-							input(type="checkbox",name=item.split(' ')[0].split('\'').join('').split(',').join('').toLowerCase())
+							input(type="checkbox",name=itemname,value=itemname)
 							span=item
+					label
+						input(type="checkbox",value="dotjeiess")
+						span="Dotjeiess, Spirit of Creation"
+							input(type="radio",name="dotjeiess-lvl",value="diamond",checked)
+							input(type="radio",name="dotjeiess-lvl",value="ruby")
+							input(type="radio",name="dotjeiess-lvl",value="jade")
 				div(class="upgrades")
 					h2 Other Upgrades
-					-var upgrades = ['Starter kit','Starter kitchen']
+					-var upgrades = ['Starter kit','Starter kitchen','Earth Shatterer']
 					each item in upgrades
+						-var itemname = item.split(' ')[0].split('\'').join('').split(',').join('').toLowerCase()
 						label
-							input(type="checkbox",name=item.split(' ')[1].split('\'').join('').split(',').join('').toLowerCase())
+							input(type="checkbox",name=itemname,value=itemname)
 							span=item
+
 		div(class="screen hidden",onclick="toggleMenu()")
+
 		main
 			h1 Cookie Cruncher
 			div(class="buildings")
 				-var bldgs = ['cursor','grandma','farm','mine','factory','bank','temple','wizard-tower','shipment','alchemy-lab','portal','time-machine','antimatter-condenser','prism','chancemaker']
 				each item in bldgs
-					div(id=item)
+					div
 						img(alt=item,src="img/"+item+".png")
-						input(type="number",min=0,max=9999,step=1)
+						input(type="number",name=item,min=0,max=9999,step=1)
 						span(class="output")
 
 		script(src="https://unpkg.com/react@16/umd/react.production.min.js", crossorigin)
