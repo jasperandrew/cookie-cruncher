@@ -155,6 +155,8 @@ var BUFFS = {
   }
 };
 var INCREASE = 1.15;
+var BUILDINGS = {};
+var SETTINGS = {};
 
 function isChecked(name) {
   return document.querySelector('input[name=' + name + ']').checked;
@@ -181,27 +183,7 @@ function multiplier() {
   });
   if (isChecked('mode')) factor *= isChecked('shatterer') ? 0.5 : 0.25;
   return factor;
-} // function buy(bldg) {
-// 	var price = 0,
-// 		have = parseInt(inputValue(bldg)),
-// 		tobuy = parseInt(inputValue('quantity')),
-// 		free = (bldg==='cursor' && isChecked('kit') ? 10 : (bldg==='grandma' && isChecked('kitchen') ? 5 : 0));
-// 	for(var i = Math.max(0, have); i < Math.max(0, have + tobuy); i++){
-// 		price += BASE[bldg] * Math.pow(INCREASE, Math.max(0, i-free));
-// 	}
-// 	return Math.ceil(price * multiplier());
-// }
-// function sell(bldg) {
-// 	var price = 0,
-// 	have = parseInt(inputValue(bldg)),
-// 	tobuy = parseInt(inputValue('quantity')),
-// 	free = (bldg==='cursor' && isChecked('kit') ? 10 : (bldg==='grandma' && isChecked('kitchen') ? 5 : 0));
-// 	for(var i = Math.max(0, have-tobuy); i < Math.max(0, have); i++){
-// 		price += BASE[bldg] * Math.pow(INCREASE, Math.max(0, i-free));
-// 	}
-// 	return Math.ceil(price * multiplier());
-// }
-
+}
 
 function calculate(bldg) {
   var price = 0,
@@ -219,4 +201,39 @@ function calculate(bldg) {
   return Math.ceil(price * multiplier());
 }
 
+function prettyNumber(n) {
+  var pow = 0;
+  if (n < 1000000) return n.toLocaleString();
+
+  while (n.toFixed(3) >= 1000) {
+    n /= 1000;
+    pow += 3;
+  }
+
+  n = n.toFixed(3).toString();
+
+  while (n.slice(-1) === '0') {
+    n = n.slice(0, -1);
+  }
+
+  if (n.slice(-1) === '.') n = n.slice(0, -1);
+  return n + ' ' + SUFFIXES[pow];
+}
+
 function run() {}
+
+function initialize() {
+  document.querySelectorAll('.buildings input').forEach(function (el) {
+    BUILDINGS[el.name] = {};
+    BUILDINGS[el.name]['in'] = el;
+  });
+  document.querySelectorAll('.buildings .output').forEach(function (el) {
+    BUILDINGS[el.id]['out'] = el;
+  });
+  document.querySelectorAll('.settings input').forEach(function (el) {
+    BUILDINGS[el.name] = {};
+    BUILDINGS[el.name]['in'] = el;
+  });
+}
+
+initialize();

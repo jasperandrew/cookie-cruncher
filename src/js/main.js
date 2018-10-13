@@ -1,5 +1,5 @@
 function toggleMenu() {
-	var screen = document.querySelector('.screen');
+	let screen = document.querySelector('.screen');
 
 	if(screen.classList.contains('hidden')){
 		screen.classList.toggle('hidden');
@@ -32,7 +32,7 @@ const BASE = {
 	'antimatter-condenser': 170000000000000,
 	'prism': 2100000000000000,
 	'chancemaker': 26000000000000000
-}
+};
 const SUFFIXES = {
 	0: 'n/a',
 	3: 'n/a',
@@ -137,8 +137,8 @@ const SUFFIXES = {
 	300: 'novemnonagintillion',
 	303: 'centillion',
 	306: 'watdafrigginheckillion'
-}
-const BUFFS = {
+};
+let BUFFS = {
 	divine: 0.99,
 	season: 0.99,
 	santas: 0.99,
@@ -151,8 +151,11 @@ const BUFFS = {
 		ruby: 0.95,
 		jade: 0.98
 	}
-}
+};
 const INCREASE = 1.15;
+
+let BUILDINGS = {};
+let SETTINGS = {};
 
 function isChecked(name) {
 	return document.querySelector('input[name=' + name + ']').checked;
@@ -162,7 +165,7 @@ function inputValue(name) {
 }
 
 function multiplier() {
-	var factor = 1;
+	let factor = 1;
 	document.querySelectorAll('.buffs input[type="checkbox"]').forEach(btn => {
 		if(btn.checked){
 			if(!(btn.value === 'dotjeiess')){
@@ -182,34 +185,8 @@ function multiplier() {
 	return factor;
 }
 
-// function buy(bldg) {
-// 	var price = 0,
-// 		have = parseInt(inputValue(bldg)),
-// 		tobuy = parseInt(inputValue('quantity')),
-// 		free = (bldg==='cursor' && isChecked('kit') ? 10 : (bldg==='grandma' && isChecked('kitchen') ? 5 : 0));
-
-// 	for(var i = Math.max(0, have); i < Math.max(0, have + tobuy); i++){
-// 		price += BASE[bldg] * Math.pow(INCREASE, Math.max(0, i-free));
-// 	}
-
-// 	return Math.ceil(price * multiplier());
-// }
-
-// function sell(bldg) {
-// 	var price = 0,
-// 	have = parseInt(inputValue(bldg)),
-// 	tobuy = parseInt(inputValue('quantity')),
-// 	free = (bldg==='cursor' && isChecked('kit') ? 10 : (bldg==='grandma' && isChecked('kitchen') ? 5 : 0));
-
-// 	for(var i = Math.max(0, have-tobuy); i < Math.max(0, have); i++){
-// 		price += BASE[bldg] * Math.pow(INCREASE, Math.max(0, i-free));
-// 	}
-
-// 	return Math.ceil(price * multiplier());
-// }
-
 function calculate(bldg) {
-	var price = 0,
+	let price = 0,
 		have = parseInt(inputValue(bldg)),
 		quantity = parseInt(inputValue('quantity')),
 		free = (bldg==='cursor' && isChecked('kit') ? 10 : (bldg==='grandma' && isChecked('kitchen') ? 5 : 0)),
@@ -217,12 +194,44 @@ function calculate(bldg) {
 		from = (buyMode ? have - quantity : have),
 		to = (buyMode ? have : have + quantity);
 
-	for(var i = Math.max(0, from); i < Math.max(0, to); i++)
+	for(let i = Math.max(0, from); i < Math.max(0, to); i++)
 		price += BASE[bldg] * Math.pow(INCREASE, Math.max(0, i-free));
 
 	return Math.ceil(price * multiplier());
 }
 
+function prettyNumber(n) {
+	let pow = 0;
+	if(n < 1000000) return n.toLocaleString();
+	while(n.toFixed(3) >= 1000){
+		n /= 1000;
+		pow += 3;
+	}
+
+	n = n.toFixed(3).toString();
+	while(n.slice(-1) === '0') n = n.slice(0,-1);
+	if(n.slice(-1) === '.') n = n.slice(0,-1);
+
+	return n + ' ' + SUFFIXES[pow];
+}
+
 function run() {
 
 }
+
+function initialize() {
+	document.querySelectorAll('.buildings input').forEach(el => {
+		BUILDINGS[el.name] = {};
+		BUILDINGS[el.name]['in'] = el;
+	});
+	document.querySelectorAll('.buildings .output').forEach(el => {
+		BUILDINGS[el.id]['out'] = el;
+	});
+	document.querySelectorAll('.settings input').forEach(el => {
+		BUILDINGS[el.name] = {};
+		BUILDINGS[el.name]['in'] = el;
+	});
+
+}
+
+initialize();

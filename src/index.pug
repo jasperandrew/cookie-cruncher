@@ -9,7 +9,7 @@ html(lang="en")
 		title Cookie Cruncher
 
 	body
-		nav(class="open")
+		nav(class="")
 			div(class="button",onclick="toggleMenu()")
 				div
 			div(class="controls")
@@ -20,7 +20,7 @@ html(lang="en")
 				input(type="number",name="quantity")
 				label(class="nums")
 					input(type="checkbox",name='numbers',checked)
-					span Short nums 
+					span Short nums
 			div(class="settings")
 				div(class="border")
 				div(class="buffs")
@@ -55,8 +55,8 @@ html(lang="en")
 				each item in bldgs
 					div
 						img(alt=item,src="img/"+item+".png")
-						input(type="number",name=item,min=0,max=9999,step=1)
-						span(class="output")
+						input(type="number",name=item,value=0,min=0,max=9999,step=1)
+						span(class="output",id=item) 0
 
 		script(src="https://unpkg.com/react@16/umd/react.production.min.js", crossorigin)
 		script(src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js", crossorigin)

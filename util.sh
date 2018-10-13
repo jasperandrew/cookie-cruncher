@@ -50,9 +50,20 @@ help () {
 	echo "usage stuff"
 }
 
-start () {
+server () {
 	echo "[Util] Starting server..."
 	npx http-server docs/
+}
+
+start () {
+	echo "[Util] Starting server..."
+	echo "[Util] Watching files for updates..."
+	trap "kill 0" EXIT
+	npx http-server docs/ -s &
+	npx babel --verbose -w src/ -d docs/ &
+	npx sass --watch src/:docs/ &
+	npx pug -w src/ -o docs/ &
+	wait
 }
 
 watch () {
@@ -76,6 +87,7 @@ elif [[ $# -eq 1 ]]; then
 	elif [[ $1 == "help" ]]; then help
 	elif [[ $1 == "start" ]]; then start
 	elif [[ $1 == "watch" ]]; then watch
+	elif [[ $1 == "server" ]]; then server
 	else echo "[Error] Invalid argument"; help
 	fi
 
