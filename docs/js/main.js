@@ -15,7 +15,7 @@ function toggleMenu() {
     }, 300);
   }
 
-  document.querySelector('.menu').classList.toggle('open');
+  document.querySelector('nav').classList.toggle('open');
 }
 
 function minify(text) {

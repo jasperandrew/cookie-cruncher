@@ -52,7 +52,7 @@ help () {
 
 start () {
 	echo "[Util] Starting server..."
-	npx http-server
+	npx http-server docs/
 }
 
 watch () {
