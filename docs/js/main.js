@@ -154,6 +154,7 @@ var BUFFS = {
     jade: 0.98
   }
 };
+var INCREASE = 1.15;
 
 function isChecked(name) {
   return document.querySelector('input[name=' + name + ']').checked;
@@ -165,54 +166,57 @@ function inputValue(name) {
 
 function multiplier() {
   var factor = 1;
-
-  if (!isChecked('mode')) {
-    // sell mode
-    document.querySelectorAll('.buffs input[type="checkbox"]').forEach(function (btn) {
-      if (btn.checked) {
-        if (!(btn.value === 'dotjeiess')) {
-          factor *= BUFFS[btn.value];
-        } else {
-          document.querySelectorAll('input[name="dotjeiess-lvl"]').forEach(function (btn) {
-            if (btn.checked) {
-              factor *= BUFFS.dotjeiess[btn.value];
-            }
-          });
-        }
+  document.querySelectorAll('.buffs input[type="checkbox"]').forEach(function (btn) {
+    if (btn.checked) {
+      if (!(btn.value === 'dotjeiess')) {
+        factor *= BUFFS[btn.value];
+      } else {
+        document.querySelectorAll('input[name="dotjeiess-lvl"]').forEach(function (btn) {
+          if (btn.checked) {
+            factor *= BUFFS.dotjeiess[btn.value];
+          }
+        });
       }
-    });
-  } else {
-    // buy mode
-    factor = 0.25;
-    if (isChecked('earth')) factor = 0.5;
-  }
-
-  return factor;
-}
-
-function buy(bldg) {
-  var cost = 0,
-      have = parseInt(inputValue(bldg)),
-      tobuy = parseInt(inputValue('quantity')),
-      want = have + tobuy;
-
-  function formula(a, b) {
-    return (Math.pow(1.15, a) - Math.pow(1.15, b)) / 0.15;
-  }
-
-  if (bldg === 'cursor' && isChecked('kit') || bldg === 'grandma' && isChecked('kitchen')) {
-    var free = bldg === 'cursor' ? 10 : 5;
-
-    if (have >= free) {
-      cost = formula(want - free, have - free);
-    } else {
-      cost = want >= free ? free - have + formula(buy - free + have, 0) : tobuy;
     }
-  } else {
-    cost = formula(want, have);
+  });
+  if (isChecked('mode')) factor *= isChecked('shatterer') ? 0.5 : 0.25;
+  return factor;
+} // function buy(bldg) {
+// 	var price = 0,
+// 		have = parseInt(inputValue(bldg)),
+// 		tobuy = parseInt(inputValue('quantity')),
+// 		free = (bldg==='cursor' && isChecked('kit') ? 10 : (bldg==='grandma' && isChecked('kitchen') ? 5 : 0));
+// 	for(var i = Math.max(0, have); i < Math.max(0, have + tobuy); i++){
+// 		price += BASE[bldg] * Math.pow(INCREASE, Math.max(0, i-free));
+// 	}
+// 	return Math.ceil(price * multiplier());
+// }
+// function sell(bldg) {
+// 	var price = 0,
+// 	have = parseInt(inputValue(bldg)),
+// 	tobuy = parseInt(inputValue('quantity')),
+// 	free = (bldg==='cursor' && isChecked('kit') ? 10 : (bldg==='grandma' && isChecked('kitchen') ? 5 : 0));
+// 	for(var i = Math.max(0, have-tobuy); i < Math.max(0, have); i++){
+// 		price += BASE[bldg] * Math.pow(INCREASE, Math.max(0, i-free));
+// 	}
+// 	return Math.ceil(price * multiplier());
+// }
+
+
+function calculate(bldg) {
+  var price = 0,
+      have = parseInt(inputValue(bldg)),
+      quantity = parseInt(inputValue('quantity')),
+      free = bldg === 'cursor' && isChecked('kit') ? 10 : bldg === 'grandma' && isChecked('kitchen') ? 5 : 0,
+      buyMode = isChecked('mode'),
+      from = buyMode ? have - quantity : have,
+      to = buyMode ? have : have + quantity;
+
+  for (var i = Math.max(0, from); i < Math.max(0, to); i++) {
+    price += BASE[bldg] * Math.pow(INCREASE, Math.max(0, i - free));
   }
 
-  return Math.ceil(cost * BASE[bldg] * multiplier());
+  return Math.ceil(price * multiplier());
 }
 
 function run() {}
