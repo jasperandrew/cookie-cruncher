@@ -8,7 +8,7 @@ body {
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
-  padding: 3vw;
+  padding: 0 3vw;
   background: url("../img/bg-stripes.jpg");
   color: #ccc;
 }
@@ -17,29 +17,29 @@ nav {
   display: flex;
   flex-direction: column;
   position: fixed;
-  bottom: 0;
+  bottom: -405px;
   left: 0;
   text-align: center;
   width: 100vw;
-  overflow: hidden;
-  vertical-align: bottom;
-  transition: height 0.2s ease-in-out;
-  height: 70px;
+  transition: bottom 0.2s ease-in-out;
+  height: 485px;
   z-index: 2;
-  background: lightgrey;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.7);
   background: url("../img/bg-noise.jpg");
-}
-nav.open {
-  height: 450px;
 }
 nav .border {
   position: absolute;
   top: 0;
   right: 0;
-  width: 100vw;
+  width: 100%;
   height: 10px;
-  background: url("../img/border-wood.png");
+  background: url("../img/wood-horiz.png");
+  background-size: cover-y;
+}
+nav .buffs .border {
+  right: -10px;
+  width: calc(100% + 20px);
+  transform: scaleX(-1);
 }
 nav .button {
   position: absolute;
@@ -224,6 +224,7 @@ nav .buffs {
   position: absolute;
   top: 70px;
   padding-top: 25px;
+  flex: 1;
 }
 nav .buffs h2 {
   font-family: "Merriweather", serif;
@@ -291,11 +292,11 @@ nav footer {
   text-align: center;
   width: 100%;
   margin-top: 20px;
-  color: #666;
+  color: #444;
 }
 nav footer a {
   text-decoration: none;
-  color: #999;
+  color: #777;
 }
 
 .screen {
@@ -311,20 +312,20 @@ nav footer a {
   transition: 0.3s ease-in-out;
 }
 .screen.open {
-  opacity: 0.3;
+  opacity: 0.4;
 }
 .screen.hidden {
   display: none;
 }
 
 main {
-  width: 100%;
+  width: 94vw;
 }
 
 h1 {
   color: #fff;
   font-family: "Merriweather", serif;
-  margin: 0 0 15px 0;
+  margin: 20px 0 15px 0;
   text-align: center;
 }
 
@@ -333,7 +334,7 @@ h1 {
   display: flex;
   flex-direction: column;
   position: absolute;
-  width: 94vw;
+  width: inherit;
   padding-bottom: 80px;
 }
 .buildings div {
@@ -384,6 +385,100 @@ h1 {
   height: 13px;
   background-size: cover;
   background-image: url("../img/money.png");
+}
+
+input:invalid {
+  border: none;
+  outline: none;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+@media (max-width: 380px) {
+  nav.open {
+    bottom: 0px;
+  }
+}
+@media (max-width: 500px) {
+  nav.open {
+    bottom: -40px;
+  }
+}
+@media (min-width: 500px) {
+  nav.open {
+    bottom: -115px;
+  }
+}
+@media (min-width: 720px) {
+  nav.open {
+    bottom: -155px;
+  }
+}
+@media (min-width: 500px) {
+  .buildings {
+    width: 400px;
+    position: fixed;
+    left: calc(50% - 200px);
+  }
+}
+@media (min-width: 850px) {
+  .buildings {
+    left: calc(320px + (20px * 2) + 50vw - (720px / 2) - 30px);
+  }
+
+  nav {
+    width: 320px;
+    padding: 0 10px 0 10px;
+    height: 535px;
+    left: calc(20px + 50vw - (720px / 2) - 30px);
+    top: 74px;
+  }
+  nav .button {
+    display: none;
+  }
+  nav .controls .nums {
+    right: 20px;
+  }
+  nav .controls .mode {
+    left: 20px;
+  }
+  nav .controls input[name=quantity] {
+    left: 118px;
+  }
+  nav .controls .border:before, nav .controls .border:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 1px;
+    height: 534px;
+    width: 10px;
+    background: url("../img/wood-vert.png") repeat-y;
+    background-size: cover-x;
+    z-index: 1;
+  }
+  nav .controls .border:before {
+    right: 0;
+  }
+  nav .controls .border:after {
+    left: 0;
+    transform: scaleY(-1);
+  }
+  nav .buffs {
+    width: 300px;
+  }
+
+  nav:before {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    height: 10px;
+    width: 100%;
+    background: url("../img/wood-horiz.png") repeat-x;
+    background-size: cover-x;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */
