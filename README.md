@@ -2,4 +2,5 @@
 A Cookie Clicker calculator
 ## todo
 - sell "all"
-- flip 2nd wood border
+- fix margin under buildings
+- fix scrolling in landscape
