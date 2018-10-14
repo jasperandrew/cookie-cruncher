@@ -254,6 +254,8 @@ function initialize() {
 	document.querySelectorAll('.controls input').forEach(el => {
 		IO.settings.controls[el.name] = el;
 	});
+	run();
 }
 
 initialize();
+
