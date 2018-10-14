@@ -1,238 +1,284 @@
 "use strict";
 
-function toggleMenu() {
-  var screen = document.querySelector('.screen');
+var CONSTANTS = {
+  increase: 1.15,
+  base: {
+    'cursor': 15,
+    'grandma': 100,
+    'farm': 1100,
+    'mine': 12000,
+    'factory': 130000,
+    'bank': 1400000,
+    'temple': 20000000,
+    'wizard-tower': 330000000,
+    'shipment': 5100000000,
+    'alchemy-lab': 75000000000,
+    'portal': 1000000000000,
+    'time-machine': 14000000000000,
+    'antimatter-condenser': 170000000000000,
+    'prism': 2100000000000000,
+    'chancemaker': 26000000000000000
+  },
+  suffix: {
+    0: 'n/a',
+    3: 'n/a',
+    6: 'million',
+    9: 'billion',
+    12: 'trillion',
+    15: 'quadrillion',
+    18: 'quintillion',
+    21: 'sextillion',
+    24: 'septillion',
+    27: 'octillion',
+    30: 'nonillion',
+    33: 'decillion',
+    36: 'undecillion',
+    39: 'duodecillion',
+    42: 'tredecillion',
+    45: 'quattuordecillion',
+    48: 'quindecillion',
+    51: 'sedecillion',
+    54: 'septendecillion',
+    57: 'octodecillion',
+    60: 'novemdecillion',
+    63: 'vigintillion',
+    66: 'unvigintillion',
+    69: 'duovigintillion',
+    72: 'trevigintillion',
+    75: 'quattuorvigintillion',
+    78: 'quinvigintillion',
+    81: 'sexvigintillion',
+    84: 'septenvigintillion',
+    87: 'octovigintillion',
+    90: 'novemvigintillion',
+    93: 'trigintillion',
+    96: 'untrigintillion',
+    99: 'duotrigintillion',
+    102: 'tretrigintillion',
+    105: 'quattuortrigintillion',
+    108: 'quintrigintillion',
+    111: 'sextrigintillion',
+    114: 'septentrigintillion',
+    117: 'octotrigintillion',
+    120: 'novemtrigintillion',
+    123: 'quadragintillion',
+    126: 'unquadragintillion',
+    129: 'duoquadragintillion',
+    132: 'trequadragintillion',
+    135: 'quattuorquadragintillion',
+    138: 'quinquadragintillion',
+    141: 'sexquadragintillion',
+    144: 'septenquadragintillion',
+    147: 'octoquadragintillion',
+    150: 'novemquadragintillion',
+    153: 'quinquagintillion',
+    156: 'unquinquagintillion',
+    159: 'duoquinquagintillion',
+    162: 'trequinquagintillion',
+    165: 'quattuorquinquagintillion',
+    168: 'quinquinquagintillion',
+    171: 'sexquinquagintillion',
+    174: 'septenquinquagintillion',
+    177: 'octoquinquagintillion',
+    180: 'novemquinquagintillion',
+    183: 'sexagintillion',
+    186: 'unsexagintillion',
+    189: 'duosexagintillion',
+    192: 'tresexagintillion',
+    195: 'quattuorsexagintillion',
+    198: 'quinsexagintillion',
+    201: 'sexsexagintillion',
+    204: 'septensexagintillion',
+    207: 'octosexagintillion',
+    210: 'novemsexagintillion',
+    213: 'septuagintillion',
+    216: 'unseptuagintillion',
+    219: 'duoseptuagintillion',
+    222: 'treseptuagintillion',
+    225: 'quattuorseptuagintillion',
+    228: 'quinseptuagintillion',
+    231: 'sexseptuagintillion',
+    234: 'septenseptuagintillion',
+    237: 'octoseptuagintillion',
+    240: 'novemseptuagintillion',
+    243: 'octogintillion',
+    246: 'unoctogintillion',
+    249: 'duooctogintillion',
+    252: 'treoctogintillion',
+    255: 'quattuoroctogintillion',
+    258: 'quinoctogintillion',
+    261: 'sexoctogintillion',
+    264: 'septenoctogintillion',
+    267: 'octooctogintillion',
+    270: 'novemoctogintillion',
+    273: 'nonagintillion',
+    276: 'unnonagintillion',
+    279: 'duononagintillion',
+    282: 'trenonagintillion',
+    285: 'quattuornonagintillion',
+    288: 'quinnonagintillion',
+    291: 'sexnonagintillion',
+    294: 'septennonagintillion',
+    297: 'octononagintillion',
+    300: 'novemnonagintillion',
+    303: 'centillion',
+    306: 'watdafrigginheckillion'
+  }
+};
+var IO = {
+  menu: {},
+  buildings: {},
+  settings: {
+    discounts: {
+      divine: {
+        x: 0.99
+      },
+      season: {
+        x: 0.99
+      },
+      santas: {
+        x: 0.99
+      },
+      faberge: {
+        x: 0.99
+      },
+      summon: {
+        x: 0.98
+      },
+      fierce: {
+        x: 0.98
+      },
+      everything: {
+        x: 0.95
+      },
+      dotjeiess: {
+        opts: {
+          diamond: {
+            x: 0.93
+          },
+          ruby: {
+            x: 0.95
+          },
+          jade: {
+            x: 0.98
+          }
+        }
+      }
+    },
+    upgrades: {},
+    controls: {}
+  }
+};
 
-  if (screen.classList.contains('hidden')) {
-    screen.classList.toggle('hidden');
+function toggleMenu() {
+  var scrn = IO.menu.screen.classList;
+
+  if (scrn.contains('hidden')) {
+    scrn.toggle('hidden');
     window.setTimeout(function () {
-      screen.classList.toggle('open');
+      scrn.toggle('open');
     }, 10);
   } else {
-    screen.classList.toggle('open');
+    scrn.toggle('open');
     window.setTimeout(function () {
-      screen.classList.toggle('hidden');
+      scrn.toggle('hidden');
     }, 300);
   }
 
-  document.querySelector('nav').classList.toggle('open');
+  IO.menu.nav.classList.toggle('open');
 }
 
-var BASE = {
-  'cursor': 15,
-  'grandma': 100,
-  'farm': 1100,
-  'mine': 12000,
-  'factory': 130000,
-  'bank': 1400000,
-  'temple': 20000000,
-  'wizard-tower': 330000000,
-  'shipment': 5100000000,
-  'alchemy-lab': 75000000000,
-  'portal': 1000000000000,
-  'time-machine': 14000000000000,
-  'antimatter-condenser': 170000000000000,
-  'prism': 2100000000000000,
-  'chancemaker': 26000000000000000
-};
-var SUFFIXES = {
-  0: 'n/a',
-  3: 'n/a',
-  6: 'million',
-  9: 'billion',
-  12: 'trillion',
-  15: 'quadrillion',
-  18: 'quintillion',
-  21: 'sextillion',
-  24: 'septillion',
-  27: 'octillion',
-  30: 'nonillion',
-  33: 'decillion',
-  36: 'undecillion',
-  39: 'duodecillion',
-  42: 'tredecillion',
-  45: 'quattuordecillion',
-  48: 'quindecillion',
-  51: 'sedecillion',
-  54: 'septendecillion',
-  57: 'octodecillion',
-  60: 'novemdecillion',
-  63: 'vigintillion',
-  66: 'unvigintillion',
-  69: 'duovigintillion',
-  72: 'trevigintillion',
-  75: 'quattuorvigintillion',
-  78: 'quinvigintillion',
-  81: 'sexvigintillion',
-  84: 'septenvigintillion',
-  87: 'octovigintillion',
-  90: 'novemvigintillion',
-  93: 'trigintillion',
-  96: 'untrigintillion',
-  99: 'duotrigintillion',
-  102: 'tretrigintillion',
-  105: 'quattuortrigintillion',
-  108: 'quintrigintillion',
-  111: 'sextrigintillion',
-  114: 'septentrigintillion',
-  117: 'octotrigintillion',
-  120: 'novemtrigintillion',
-  123: 'quadragintillion',
-  126: 'unquadragintillion',
-  129: 'duoquadragintillion',
-  132: 'trequadragintillion',
-  135: 'quattuorquadragintillion',
-  138: 'quinquadragintillion',
-  141: 'sexquadragintillion',
-  144: 'septenquadragintillion',
-  147: 'octoquadragintillion',
-  150: 'novemquadragintillion',
-  153: 'quinquagintillion',
-  156: 'unquinquagintillion',
-  159: 'duoquinquagintillion',
-  162: 'trequinquagintillion',
-  165: 'quattuorquinquagintillion',
-  168: 'quinquinquagintillion',
-  171: 'sexquinquagintillion',
-  174: 'septenquinquagintillion',
-  177: 'octoquinquagintillion',
-  180: 'novemquinquagintillion',
-  183: 'sexagintillion',
-  186: 'unsexagintillion',
-  189: 'duosexagintillion',
-  192: 'tresexagintillion',
-  195: 'quattuorsexagintillion',
-  198: 'quinsexagintillion',
-  201: 'sexsexagintillion',
-  204: 'septensexagintillion',
-  207: 'octosexagintillion',
-  210: 'novemsexagintillion',
-  213: 'septuagintillion',
-  216: 'unseptuagintillion',
-  219: 'duoseptuagintillion',
-  222: 'treseptuagintillion',
-  225: 'quattuorseptuagintillion',
-  228: 'quinseptuagintillion',
-  231: 'sexseptuagintillion',
-  234: 'septenseptuagintillion',
-  237: 'octoseptuagintillion',
-  240: 'novemseptuagintillion',
-  243: 'octogintillion',
-  246: 'unoctogintillion',
-  249: 'duooctogintillion',
-  252: 'treoctogintillion',
-  255: 'quattuoroctogintillion',
-  258: 'quinoctogintillion',
-  261: 'sexoctogintillion',
-  264: 'septenoctogintillion',
-  267: 'octooctogintillion',
-  270: 'novemoctogintillion',
-  273: 'nonagintillion',
-  276: 'unnonagintillion',
-  279: 'duononagintillion',
-  282: 'trenonagintillion',
-  285: 'quattuornonagintillion',
-  288: 'quinnonagintillion',
-  291: 'sexnonagintillion',
-  294: 'septennonagintillion',
-  297: 'octononagintillion',
-  300: 'novemnonagintillion',
-  303: 'centillion',
-  306: 'watdafrigginheckillion'
-};
-var BUFFS = {
-  divine: 0.99,
-  season: 0.99,
-  santas: 0.99,
-  faberge: 0.99,
-  summon: 0.98,
-  fierce: 0.98,
-  everything: 0.95,
-  dotjeiess: {
-    diamond: 0.93,
-    ruby: 0.95,
-    jade: 0.98
-  }
-};
-var INCREASE = 1.15;
-var BUILDINGS = {};
-var SETTINGS = {};
-
-function isChecked(name) {
-  return document.querySelector('input[name=' + name + ']').checked;
-}
-
-function inputValue(name) {
-  return document.querySelector('input[name=' + name + ']').value;
-}
-
-function multiplier() {
+function getMultiplier() {
   var factor = 1;
-  document.querySelectorAll('.buffs input[type="checkbox"]').forEach(function (btn) {
-    if (btn.checked) {
-      if (!(btn.value === 'dotjeiess')) {
-        factor *= BUFFS[btn.value];
+
+  for (var i in IO.settings.discounts) {
+    var buff = IO.settings.discounts[i];
+
+    if (buff.in.checked) {
+      if (!(buff.in.name === 'dotjeiess')) {
+        factor *= buff.x;
       } else {
-        document.querySelectorAll('input[name="dotjeiess-lvl"]').forEach(function (btn) {
-          if (btn.checked) {
-            factor *= BUFFS.dotjeiess[btn.value];
-          }
-        });
+        for (var j in buff.opts) {
+          var opt = buff.opts[j];
+          if (opt.in.checked) factor *= opt.x;
+        }
       }
     }
-  });
-  if (isChecked('mode')) factor *= isChecked('shatterer') ? 0.5 : 0.25;
+  }
+
+  if (IO.settings.controls.mode.checked) factor *= IO.settings.upgrades.shatterer.checked ? 0.5 : 0.25;
   return factor;
 }
 
-function calculate(bldg) {
+function calculatePrice(bldg) {
   var price = 0,
-      have = parseInt(inputValue(bldg)),
-      quantity = parseInt(inputValue('quantity')),
-      free = bldg === 'cursor' && isChecked('kit') ? 10 : bldg === 'grandma' && isChecked('kitchen') ? 5 : 0,
-      buyMode = isChecked('mode'),
-      from = buyMode ? have - quantity : have,
-      to = buyMode ? have : have + quantity;
+      have = parseInt(IO.buildings[bldg].in.value),
+      quantity = parseInt(IO.settings.controls.quantity.value),
+      free = bldg === 'cursor' && IO.settings.upgrades.kit.checked ? 10 : bldg === 'grandma' && IO.settings.upgrades.kitchen.checked ? 5 : 0,
+      sellMode = IO.settings.controls.mode.checked,
+      from = sellMode ? have - quantity : have,
+      to = sellMode ? have : have + quantity;
 
   for (var i = Math.max(0, from); i < Math.max(0, to); i++) {
-    price += BASE[bldg] * Math.pow(INCREASE, Math.max(0, i - free));
+    price += CONSTANTS.base[bldg] * Math.pow(CONSTANTS.increase, Math.max(0, i - free));
   }
 
-  return Math.ceil(price * multiplier());
+  return Math.ceil(price * getMultiplier());
 }
 
 function prettyNumber(n) {
-  var pow = 0;
+  var pow = 0,
+      short = IO.settings.controls.numbers.checked,
+      p = short ? 3 : 15,
+      step = short ? 1000 : 10,
+      pstep = short ? 3 : 1;
   if (n < 1000000) return n.toLocaleString();
 
-  while (n.toFixed(3) >= 1000) {
-    n /= 1000;
-    pow += 3;
+  while (n.toFixed(p) >= step) {
+    n /= step;
+    pow += pstep;
   }
 
-  n = n.toFixed(3).toString();
+  n = n.toFixed(p).toString();
 
   while (n.slice(-1) === '0') {
     n = n.slice(0, -1);
   }
 
   if (n.slice(-1) === '.') n = n.slice(0, -1);
-  return n + ' ' + SUFFIXES[pow];
+  return n + (short ? ' ' + CONSTANTS.suffix[pow] : "e" + pow);
 }
 
-function run() {}
+function run() {
+  for (var i in IO.buildings) {
+    IO.buildings[i].out.innerHTML = prettyNumber(calculatePrice(i));
+  }
+}
 
 function initialize() {
+  IO.menu['nav'] = document.querySelector('nav');
+  IO.menu['screen'] = document.querySelector('.screen');
   document.querySelectorAll('.buildings input').forEach(function (el) {
-    BUILDINGS[el.name] = {};
-    BUILDINGS[el.name]['in'] = el;
+    IO.buildings[el.name] = {};
+    IO.buildings[el.name]['in'] = el;
   });
   document.querySelectorAll('.buildings .output').forEach(function (el) {
-    BUILDINGS[el.id]['out'] = el;
+    IO.buildings[el.id]['out'] = el;
   });
-  document.querySelectorAll('.settings input').forEach(function (el) {
-    BUILDINGS[el.name] = {};
-    BUILDINGS[el.name]['in'] = el;
+  document.querySelectorAll('.discounts input[type="checkbox"]').forEach(function (el) {
+    if (el.name === 'dotjeiess') {
+      document.querySelectorAll('input[name="dotjeiess-lvl"]').forEach(function (opt) {
+        IO.settings.discounts[el.name].opts[opt.value]['in'] = opt;
+      });
+    }
+
+    IO.settings.discounts[el.name]['in'] = el;
+  });
+  document.querySelectorAll('.upgrades input').forEach(function (el) {
+    IO.settings.upgrades[el.name] = el;
+  });
+  document.querySelectorAll('.controls input').forEach(function (el) {
+    IO.settings.controls[el.name] = el;
   });
 }
 

@@ -21,9 +21,9 @@ html(lang="en")
 				label(class="nums")
 					input(type="checkbox",name='numbers',checked)
 					span Short nums
-			div(class="settings")
+			div(class="buffs")
 				div(class="border")
-				div(class="buffs")
+				div(class="discounts")
 					h2 Discount Buffs
 					-var buffs = ['Divine discount','Season savings','Santa\'s dominion','Faberge egg','Everything must go','Fierce Hoarder','Summon Crafty Pixies']
 					each item in buffs
@@ -32,7 +32,7 @@ html(lang="en")
 							input(type="checkbox",name=itemname,value=itemname)
 							span=item
 					label
-						input(type="checkbox",value="dotjeiess")
+						input(type="checkbox",name="dotjeiess",value="dotjeiess")
 						span="Dotjeiess, Spirit of Creation"
 							input(type="radio",name="dotjeiess-lvl",value="diamond",checked)
 							input(type="radio",name="dotjeiess-lvl",value="ruby")
@@ -45,6 +45,10 @@ html(lang="en")
 						label
 							input(type="checkbox",name=itemname,value=itemname)
 							span=item
+				footer
+					| Created by Jasper. Check it out on 
+					a(href="http://github.com/jasperandrew/cookie-cruncher/") Github
+					| !
 
 		div(class="screen hidden",onclick="toggleMenu()")
 
