@@ -335,7 +335,7 @@ h1 {
   flex-direction: column;
   position: absolute;
   width: inherit;
-  padding-bottom: 80px;
+  padding-bottom: 90px;
 }
 .buildings div {
   display: flex;
@@ -418,7 +418,7 @@ input:invalid {
 @media (min-width: 500px) {
   .buildings {
     width: 400px;
-    position: fixed;
+    position: absolute;
     left: calc(50% - 200px);
   }
 }
@@ -432,6 +432,7 @@ input:invalid {
     padding: 0 10px 0 10px;
     height: 535px;
     left: calc(20px + 50vw - (720px / 2) - 30px);
+    position: absolute;
     top: 74px;
   }
   nav .button {
