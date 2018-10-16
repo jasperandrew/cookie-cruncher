@@ -17,16 +17,13 @@ html(lang="en")
 				label(class="mode")
 					input(type="checkbox",name="mode",onclick="run()")
 					span
-				input(type="number",name="quantity",value=0,oninput="run()")
-				label(class="nums")
-					input(type="checkbox",name='numbers',onclick="run()",checked)
-					span Short nums
+				input(type="number",name="quantity",oninput="run()")
 			div(class="options")
 				div(class="border")
 				div(class="upgrades")
 					h2 Upgrades/Auras
-					-var buffs = ['Season savings','Santa\'s dominion','Faberge egg','Divine discount','Starter kit','Starter kitchen','Fierce Hoarder','Earth Shatterer']
-					each item in buffs
+					-var upgrades = ['Season savings','Santa\'s dominion','Faberge egg','Divine discount','Starter kit','Starter kitchen','Fierce Hoarder','Earth Shatterer']
+					each item in upgrades
 						label
 							input(type="checkbox",name=item,value=item,onclick="run()")
 							span=item
@@ -38,11 +35,19 @@ html(lang="en")
 							input(type="radio",name="dotjeiess-slot",value="jade",onclick="run()")
 				div(class="buffs")
 					h2 Buffs/Spells
-					-var upgrades = ['Everything must go','Summon Crafty Pixies']
-					each item in upgrades
+					-var buffs = ['Everything must go','Summon Crafty Pixies']
+					each item in buffs
 						label
 							input(type="checkbox",name=item,value=item,onclick="run()")
 							span=item
+				div(class="settings")
+					h2 Settings
+					label
+						input(type="checkbox",name="Short numbers",onclick="run()",checked=true)
+						span="Short numbers"
+					label
+						input(type="button",name="Load save data",onclick="loadPrompt()")
+						span="Load save data"
 				footer
 					| Created by Jasper. Check it out on 
 					a(href="http://github.com/jasperandrew/cookie-cruncher/") Github
@@ -57,8 +62,10 @@ html(lang="en")
 				each item in bldgs
 					div
 						img(alt=item,src="img/"+item+".png")
-						input(type="number",name=item,value=0,min=0,max=9999,step=1,oninput="run()")
+						input(type="number",name=item,min=0,max=9999,step=1,oninput="run()")
 						span(class="output",id=item) 0
+
+		div(class="popup")
 
 		script(src="js/base64.js")
 		script(src="js/load.js")

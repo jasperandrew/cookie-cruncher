@@ -187,7 +187,7 @@ function getMultiplier() {
 
 function calculatePrice(bldg) {
   var price = 0,
-      have = parseInt(IO.buildings[bldg].elem.value),
+      have = IO.buildings[bldg].elem.value !== '' ? parseInt(IO.buildings[bldg].elem.value) : 0,
       quantity = parseInt(IO.controls.quantity.value),
       free = bldg === 'cursor' && IO.options['Starter kit'].elem.checked ? 10 : bldg === 'grandma' && IO.options['Starter kitchen'].elem.checked ? 5 : 0,
       sellMode = IO.controls.mode.checked,
@@ -202,8 +202,9 @@ function calculatePrice(bldg) {
 }
 
 function prettyNumber(n) {
+  if (n >= Number.MAX_VALUE) return '<span class="infinity">∞</span>';
   var pow = 0,
-      short = IO.controls.numbers.checked,
+      short = IO.options['Short numbers'].elem.checked,
       p = short ? 3 : 15,
       step = short ? 1000 : 10,
       pstep = short ? 3 : 1;
