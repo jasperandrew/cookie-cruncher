@@ -41,12 +41,13 @@ nav
 		right: -10px
 		width: calc(100% + 20px)
 		transform: scaleX(-1)
+
 	.button
 		position: absolute
-		top: 26px
-		right: 14px
-		width: 30px
-		height: 27px
+		top: 10px
+		right: 0
+		width: $menuhgt - 10px
+		height: $menuhgt - 10px
 		transition: 0.2s ease-in-out
 		z-index: 2
 		&:hover
@@ -63,7 +64,8 @@ nav
 			transform: none
 			transition: 0.2s ease-in-out
 		div
-			top: 11px
+			top: 27px
+			right: 14px
 			&:before
 				position: relative
 				top: -11px

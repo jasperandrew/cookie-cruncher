@@ -43,10 +43,10 @@ nav .options .border {
 }
 nav .button {
   position: absolute;
-  top: 26px;
-  right: 14px;
-  width: 30px;
-  height: 27px;
+  top: 10px;
+  right: 0;
+  width: 60px;
+  height: 60px;
   transition: 0.2s ease-in-out;
   z-index: 2;
 }
@@ -65,7 +65,8 @@ nav .button div, nav .button div:before, nav .button div:after {
   transition: 0.2s ease-in-out;
 }
 nav .button div {
-  top: 11px;
+  top: 27px;
+  right: 14px;
 }
 nav .button div:before {
   position: relative;
