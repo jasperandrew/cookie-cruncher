@@ -17,33 +17,31 @@ html(lang="en")
 				label(class="mode")
 					input(type="checkbox",name="mode",onclick="run()")
 					span
-				input(type="number",name="quantity",oninput="run()")
+				input(type="number",name="quantity",value=0,oninput="run()")
 				label(class="nums")
 					input(type="checkbox",name='numbers',onclick="run()",checked)
 					span Short nums
-			div(class="buffs")
+			div(class="options")
 				div(class="border")
-				div(class="discounts")
-					h2 Discount Buffs
-					-var buffs = ['Divine discount','Season savings','Santa\'s dominion','Faberge egg','Everything must go','Fierce Hoarder','Summon Crafty Pixies']
+				div(class="upgrades")
+					h2 Upgrades/Auras
+					-var buffs = ['Season savings','Santa\'s dominion','Faberge egg','Divine discount','Starter kit','Starter kitchen','Fierce Hoarder','Earth Shatterer']
 					each item in buffs
-						-var itemname = item.split(' ')[0].split('\'').join('').split(',').join('').toLowerCase()
 						label
-							input(type="checkbox",name=itemname,value=itemname,onclick="run()")
+							input(type="checkbox",name=item,value=item,onclick="run()")
 							span=item
 					label
-						input(type="checkbox",name="dotjeiess",value="dotjeiess",onclick="run()")
+						input(type="checkbox",name="Dotjeiess, Spirit of Creation",value="Dotjeiess, Spirit of Creation",onclick="run()")
 						span="Dotjeiess, Spirit of Creation"
-							input(type="radio",name="dotjeiess-lvl",value="diamond",onclick="run()",checked)
-							input(type="radio",name="dotjeiess-lvl",value="ruby",onclick="run()")
-							input(type="radio",name="dotjeiess-lvl",value="jade",onclick="run()")
-				div(class="upgrades")
-					h2 Other Upgrades
-					-var upgrades = ['Starter kit','Starter kitchen','Earth Shatterer']
+							input(type="radio",name="dotjeiess-slot",value="diamond",onclick="run()",checked)
+							input(type="radio",name="dotjeiess-slot",value="ruby",onclick="run()")
+							input(type="radio",name="dotjeiess-slot",value="jade",onclick="run()")
+				div(class="buffs")
+					h2 Buffs/Spells
+					-var upgrades = ['Everything must go','Summon Crafty Pixies']
 					each item in upgrades
-						-var itemname = item.split(' ')[1].split('\'').join('').split(',').join('').toLowerCase()
 						label
-							input(type="checkbox",name=itemname,value=itemname,onclick="run()")
+							input(type="checkbox",name=item,value=item,onclick="run()")
 							span=item
 				footer
 					| Created by Jasper. Check it out on 
@@ -62,6 +60,6 @@ html(lang="en")
 						input(type="number",name=item,value=0,min=0,max=9999,step=1,oninput="run()")
 						span(class="output",id=item) 0
 
-		script(src="https://unpkg.com/react@16/umd/react.production.min.js", crossorigin)
-		script(src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js", crossorigin)
+		script(src="js/base64.js")
+		script(src="js/load.js")
 		script(src="js/main.js")

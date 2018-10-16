@@ -18,9 +18,23 @@ const CONSTANTS = {
 		'prism': 2100000000000000,
 		'chancemaker': 26000000000000000	
 	},
+	discounts: {
+		'Divine discount': 0.99,
+		'Season savings': 0.99,
+		'Santa\'s dominion': 0.99,
+		'Faberge egg': 0.99,
+		'Summon Crafty Pixies': 0.98,
+		'Fierce Hoarder': 0.98,
+		'Everything must go': 0.95,
+		'Dotjeiess, Spirit of Creation': {
+			diamond: 0.93,
+			ruby: 0.95,
+			jade: 0.98
+		}
+	},
 	suffix: {
-		0: 'n/a',
-		3: 'n/a',
+		0: '',
+		3: '',
 		6: 'million',
 		9: 'billion',
 		12: 'trillion',
@@ -128,26 +142,8 @@ const CONSTANTS = {
 let IO = {
 	menu: {},
 	buildings: {},
-	settings: {
-		discounts: {
-			divine: { x: 0.99 },
-			season: { x: 0.99 },
-			santas: { x: 0.99 },
-			faberge: { x: 0.99 },
-			summon: { x: 0.98 },
-			fierce: { x: 0.98 },
-			everything: { x: 0.95 },
-			dotjeiess: {
-				opts: {
-					diamond: { x: 0.93 },
-					ruby: { x: 0.95},
-					jade: { x: 0.98 }	
-				}
-			}
-		},
-		upgrades: {},
-		controls: {}
-	}
+	options: {},
+	controls: {}
 };
 
 function toggleMenu() {
@@ -170,32 +166,31 @@ function toggleMenu() {
 function getMultiplier() {
 	let factor = 1;
 
-	for(let i in IO.settings.discounts){
-		let buff = IO.settings.discounts[i];
-		if(buff.in.checked){
-			if(!(buff.in.name === 'dotjeiess')){
-				factor *= buff.x;
-			}else{
-				for(let j in buff.opts){
-					let opt = buff.opts[j];
-					if(opt.in.checked) factor *= opt.x;
+	for(let i in CONSTANTS.discounts){
+		let discount = CONSTANTS.discounts[i];
+		if(IO.options[i].elem.checked){
+			if(i === 'Dotjeiess, Spirit of Creation'){
+				for(let j in discount){
+					if(IO.options[i].slots[j].checked) factor *= discount[j];
 				}
+			}else{
+				factor *= discount;
 			}
 		}
 	}
 
-	if(IO.settings.controls.mode.checked)
-		factor *= (IO.settings.upgrades.shatterer.checked ? 0.5 : 0.25);
+	if(IO.controls.mode.checked)
+		factor *= (IO.options['Earth Shatterer'].elem.checked ? 0.5 : 0.25);
 
 	return factor;
 }
 
 function calculatePrice(bldg) {
 	let price = 0,
-		have = parseInt(IO.buildings[bldg].in.value),
-		quantity = parseInt(IO.settings.controls.quantity.value),
-		free = (bldg==='cursor' && IO.settings.upgrades.kit.checked ? 10 : (bldg==='grandma' && IO.settings.upgrades.kitchen.checked ? 5 : 0)),
-		sellMode = IO.settings.controls.mode.checked,
+		have = parseInt(IO.buildings[bldg].elem.value),
+		quantity = parseInt(IO.controls.quantity.value),
+		free = (bldg==='cursor' && IO.options['Starter kit'].elem.checked ? 10 : (bldg==='grandma' && IO.options['Starter kitchen'].elem.checked ? 5 : 0)),
+		sellMode = IO.controls.mode.checked,
 		from = (sellMode ? have - quantity : have),
 		to = (sellMode ? have : have + quantity);
 
@@ -207,7 +202,7 @@ function calculatePrice(bldg) {
 
 function prettyNumber(n) {
 	let pow = 0,
-	short = IO.settings.controls.numbers.checked,
+	short = IO.controls.numbers.checked,
 	p = (short ? 3 : 15),
 	step = (short ? 1000 : 10),
 	pstep = (short ? 3 : 1);
@@ -227,7 +222,7 @@ function prettyNumber(n) {
 
 function run() {
 	for(let i in IO.buildings)
-		IO.buildings[i].out.innerHTML = prettyNumber(calculatePrice(i));
+		IO.buildings[i].output.innerHTML = prettyNumber(calculatePrice(i));
 }
 
 function initialize() {
@@ -235,25 +230,27 @@ function initialize() {
 	IO.menu['screen'] = document.querySelector('.screen');
 	document.querySelectorAll('.buildings input').forEach(el => {
 		IO.buildings[el.name] = {};
-		IO.buildings[el.name]['in'] = el;
+		IO.buildings[el.name]['elem'] = el;
 	});
 	document.querySelectorAll('.buildings .output').forEach(el => {
-		IO.buildings[el.id]['out'] = el;
+		IO.buildings[el.id]['output'] = el;
 	});
-	document.querySelectorAll('.discounts input[type="checkbox"]').forEach(el => {
-		if(el.name === 'dotjeiess'){
-			document.querySelectorAll('input[name="dotjeiess-lvl"]').forEach(opt => {
-				IO.settings.discounts[el.name].opts[opt.value]['in'] = opt;
+
+	document.querySelectorAll('.options input[type="checkbox"]').forEach(el => {
+		IO.options[el.name] = {};
+		if(el.name === 'Dotjeiess, Spirit of Creation'){
+			IO.options[el.name].slots = {};
+			document.querySelectorAll('input[name="dotjeiess-slot"]').forEach(slot => {
+				IO.options[el.name].slots[slot.value] = slot;
 			});
 		}
-		IO.settings.discounts[el.name]['in'] = el;
+		IO.options[el.name]['elem'] = el;
 	});
-	document.querySelectorAll('.upgrades input').forEach(el => {
-		IO.settings.upgrades[el.name] = el;
-	});
+
 	document.querySelectorAll('.controls input').forEach(el => {
-		IO.settings.controls[el.name] = el;
+		IO.controls[el.name] = el;
 	});
+
 	run();
 }
 

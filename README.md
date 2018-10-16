@@ -4,3 +4,4 @@ A Cookie Clicker calculator
 - sell "all"
 - optimize run() for individual buildings
 - load from save string
+- infinity
