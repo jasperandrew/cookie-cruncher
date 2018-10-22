@@ -1,0 +1,72 @@
+doctype html
+html(lang="en")
+	head
+		meta(charset="UTF-8")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		meta(http-equiv="X-UA-Compatible", content="ie=edge")
+		link(rel="stylesheet", href="../css/normalize.css")
+		link(rel="stylesheet", href="../css/style.css")
+		title Cookie Cruncher (beta)
+
+	body
+		nav(class="")
+			div(class="button",onclick="toggleMenu()")
+				div
+			div(class="controls")
+				div(class="border")
+				label(class="mode")
+					input(type="checkbox",name="mode",onclick="run()")
+					span
+				input(type="number",name="quantity",oninput="run()")
+			div(class="options")
+				div(class="border")
+				div(class="upgrades")
+					h2 Upgrades/Auras
+					-var upgrades = ['Season savings','Santa\'s dominion','Faberge egg','Divine discount','Starter kit','Starter kitchen','Fierce Hoarder','Earth Shatterer']
+					each item in upgrades
+						label
+							input(type="checkbox",name=item,value=item,onclick="run()")
+							span=item
+					label
+						input(type="checkbox",name="Dotjeiess, Spirit of Creation",value="Dotjeiess, Spirit of Creation",onclick="run()")
+						span="Dotjeiess, Spirit of Creation"
+							input(type="radio",name="dotjeiess-slot",value="diamond",onclick="run()",checked)
+							input(type="radio",name="dotjeiess-slot",value="ruby",onclick="run()")
+							input(type="radio",name="dotjeiess-slot",value="jade",onclick="run()")
+				div(class="buffs")
+					h2 Buffs/Spells
+					-var buffs = ['Everything must go','Summon Crafty Pixies']
+					each item in buffs
+						label
+							input(type="checkbox",name=item,value=item,onclick="run()")
+							span=item
+				div(class="settings")
+					h2 Settings
+					label
+						input(type="checkbox",name="Short numbers",onclick="run()",checked=true)
+						span="Short numbers"
+					label
+						input(type="button",name="Load save data",onclick="loadPrompt()")
+						span="Load save data"
+				footer
+					| Created by Jasper. Check it out on 
+					a(href="http://github.com/jasperandrew/cookie-cruncher/") Github
+					| !
+
+		div(class="screen hidden",onclick="toggleMenu()")
+
+		main
+			h1 Cookie Cruncher
+			div(class="buildings")
+				-var bldgs = ['cursor','grandma','farm','mine','factory','bank','temple','wizard-tower','shipment','alchemy-lab','portal','time-machine','antimatter-condenser','prism','chancemaker','fractal-engine']
+				each item in bldgs
+					div
+						img(alt=item,src="../img/"+item+".png")
+						input(type="number",name=item,min=0,max=9999,step=1,oninput="run()")
+						span(class="output",id=item) 0
+
+		div(class="popup")
+
+		script(src="../js/base64.js")
+		script(src="../js/load.js")
+		script(src="../js/main.js")

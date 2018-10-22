@@ -17,7 +17,8 @@ var CONSTANTS = {
     'time-machine': 14000000000000,
     'antimatter-condenser': 170000000000000,
     'prism': 2100000000000000,
-    'chancemaker': 26000000000000000
+    'chancemaker': 26000000000000000,
+    'fractal-engine': 310000000000000000
   },
   discounts: {
     'Divine discount': 0.99,
