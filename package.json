@@ -22,10 +22,10 @@
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
-    "http-server": "^0.11.1",
+    "http-server": "^0.12.3",
     "pug-cli": "^1.0.0-alpha6",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "sass": "^1.14.1"
+    "sass": "^1.26.10"
   }
 }
