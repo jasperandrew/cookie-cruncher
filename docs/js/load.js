@@ -14,8 +14,7 @@ function parseAndImportData(data) {
     return false;
   }
 
-  str = str.split('|');
-  console.log(str); // Get version
+  str = str.split('|'); // Get version
 
   var version = parseFloat(str[0]);
 
@@ -27,6 +26,7 @@ function parseAndImportData(data) {
 
   var buildings = str[5].split(';'),
       i = 0;
+  console.log(str);
 
   for (var bldg in IO.buildings) {
     IO.buildings[bldg].in.value = buildings[i++].split(',')[0];
@@ -51,8 +51,21 @@ function parseAndImportData(data) {
   IO.discounts['earth-shatterer'].el.checked = 0;
   IO.discounts['fierce-hoarder'].el.checked = 0;
   auras.forEach(function (aura) {
-    if (aura === '5') IO.discounts['earth-shatterer'].el.checked = 1;
-    if (aura === '7') IO.discounts['fierce-hoarder'].el.checked = 1;
+    switch (aura) {
+      case '5':
+        IO.discounts['earth-shatterer'].el.checked = 1;
+        break;
+
+      case '7':
+        IO.discounts['fierce-hoarder'].el.checked = 1;
+        break;
+
+      case '18':
+        IO.discounts['reality-bending'].el.checked = 1;
+        break;
+
+      default:
+    }
   }); // Get spirit aura
 
   var dotj = buildings[6].split(',')[4].split(' ')[0].split('/'),

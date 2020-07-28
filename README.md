@@ -6,6 +6,6 @@ A Cookie Clicker calculator
 
 - add cheapcaps
 - add fortune cookies
-- add reality bending
 - add sell "all"
 - add loading the buffs
+- update the save loader

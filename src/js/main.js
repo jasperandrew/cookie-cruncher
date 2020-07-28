@@ -32,8 +32,8 @@ const CONSTANTS = {
 			'everything-must-go': 0.95
 		},
 		auras: {
-			'fierce-hoarder': 0.98,
-			// 'reality-bending': 0.998
+			'fierce-hoarder': 0.02,
+			'reality-bending': 0.002
 		},
 		spirits: {
 			'dotjeiess': {
@@ -207,7 +207,7 @@ function getMultiplier() {
 		let discount = CONSTANTS.discounts.auras[name];
 		if (IO.hasDiscount(name)) sum += discount;
 	}
-	if (sum > 0) mult *= sum;
+	if (sum > 0) mult *= (1 - sum);
 
 	// spirits stack multiplicatively
 	for (let name in CONSTANTS.discounts.spirits) {
@@ -339,9 +339,9 @@ function initialize() {
  * Import save data from a Cookie Clicker save string
  */
 function importSave() {
-    let data = prompt("Paste your save string here");
+	let data = prompt("Paste your save string here");
 
-    if (data !== null && data !== '')
+	if (data !== null && data !== '')
 		parseAndImportData(data);
 		
 	runAll();

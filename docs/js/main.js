@@ -33,8 +33,8 @@ var CONSTANTS = {
       'everything-must-go': 0.95
     },
     auras: {
-      'fierce-hoarder': 0.98 // 'reality-bending': 0.998
-
+      'fierce-hoarder': 0.02,
+      'reality-bending': 0.002
     },
     spirits: {
       'dotjeiess': {
@@ -209,7 +209,7 @@ function getMultiplier() {
     if (IO.hasDiscount(_name2)) sum += _discount2;
   }
 
-  if (sum > 0) mult *= sum; // spirits stack multiplicatively
+  if (sum > 0) mult *= 1 - sum; // spirits stack multiplicatively
 
   for (var _name3 in CONSTANTS.discounts.spirits) {
     var _discount3 = CONSTANTS.discounts.spirits[_name3];
