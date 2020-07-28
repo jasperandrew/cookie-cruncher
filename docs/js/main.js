@@ -22,14 +22,14 @@ var CONSTANTS = {
     'javascript-console': 71000000000000000000
   },
   discounts: {
-    'Divine discount': 0.99,
-    'Season savings': 0.99,
-    'Santa\'s dominion': 0.99,
-    'Faberge egg': 0.99,
-    'Summon Crafty Pixies': 0.98,
-    'Fierce Hoarder': 0.98,
-    'Everything must go': 0.95,
-    'Dotjeiess, Spirit of Creation': {
+    'divine-discount': 0.99,
+    'season-savings': 0.99,
+    'santas-dominion': 0.99,
+    'faberge-egg': 0.99,
+    'summon-crafty-pixies': 0.98,
+    'fierce-hoarder': 0.98,
+    'everything-must-go': 0.95,
+    'dotjeiess': {
       diamond: 0.93,
       ruby: 0.95,
       jade: 0.98
@@ -143,39 +143,44 @@ var CONSTANTS = {
 };
 var IO = {
   menu: {},
+  toggleMenu: function toggleMenu() {
+    var shade = IO.menu.shade.classList;
+
+    if (shade.contains('hidden')) {
+      shade.toggle('hidden');
+      window.setTimeout(function () {
+        shade.toggle('open');
+      }, 10);
+    } else {
+      shade.toggle('open');
+      window.setTimeout(function () {
+        shade.toggle('hidden');
+      }, 300);
+    }
+
+    IO.menu.nav.classList.toggle('open');
+  },
   buildings: {},
+  buildingVal: function buildingVal(bldg) {
+    return IO.buildings[bldg].elem.value;
+  },
   options: {},
+  optIsChecked: function optIsChecked(opt) {
+    return IO.options[opt].elem.checked;
+  },
   controls: {}
 };
-
-function toggleMenu() {
-  var scrn = IO.menu.screen.classList;
-
-  if (scrn.contains('hidden')) {
-    scrn.toggle('hidden');
-    window.setTimeout(function () {
-      scrn.toggle('open');
-    }, 10);
-  } else {
-    scrn.toggle('open');
-    window.setTimeout(function () {
-      scrn.toggle('hidden');
-    }, 300);
-  }
-
-  IO.menu.nav.classList.toggle('open');
-}
 
 function getMultiplier() {
   var factor = 1;
 
-  for (var i in CONSTANTS.discounts) {
-    var discount = CONSTANTS.discounts[i];
+  for (var name in CONSTANTS.discounts) {
+    var discount = CONSTANTS.discounts[name];
 
-    if (IO.options[i].elem.checked) {
-      if (i === 'Dotjeiess, Spirit of Creation') {
-        for (var j in discount) {
-          if (IO.options[i].slots[j].checked) factor *= discount[j];
+    if (IO.optIsChecked(name)) {
+      if (name === 'dotjeiess') {
+        for (var slot in discount) {
+          if (IO.options[name].slots[slot].checked) factor *= discount[slot];
         }
       } else {
         factor *= discount;
@@ -183,7 +188,7 @@ function getMultiplier() {
     }
   }
 
-  if (IO.controls.mode.checked) factor *= IO.options['Earth Shatterer'].elem.checked ? 0.5 : 0.25;
+  if (IO.controls.mode.checked) factor *= IO.optIsChecked('earth-shatterer') ? 0.5 : 0.25;
   return factor;
 }
 
@@ -191,7 +196,7 @@ function calculatePrice(bldg) {
   var price = 0,
       have = IO.buildings[bldg].elem.value !== '' ? parseInt(IO.buildings[bldg].elem.value) : 0,
       quantity = parseInt(IO.controls.quantity.value),
-      free = bldg === 'cursor' && IO.options['Starter kit'].elem.checked ? 10 : bldg === 'grandma' && IO.options['Starter kitchen'].elem.checked ? 5 : 0,
+      free = bldg === 'cursor' && IO.optIsChecked('starter-kit') ? 10 : bldg === 'grandma' && IO.optIsChecked('starter-kitchen') ? 5 : 0,
       sellMode = IO.controls.mode.checked,
       from = sellMode ? have - quantity : have,
       to = sellMode ? have : have + quantity;
@@ -206,7 +211,7 @@ function calculatePrice(bldg) {
 function prettyNumber(n) {
   if (n >= Number.MAX_VALUE) return '<span class="infinity">∞</span>';
   var pow = 0,
-      short = IO.options['Short numbers'].elem.checked,
+      short = IO.optIsChecked('short-numbers'),
       p = short ? 3 : 15,
       step = short ? 1000 : 10,
       pstep = short ? 3 : 1;
@@ -227,15 +232,19 @@ function prettyNumber(n) {
   return n + (short ? ' ' + CONSTANTS.suffix[pow] : "e" + pow);
 }
 
-function run() {
-  for (var i in IO.buildings) {
-    IO.buildings[i].output.innerHTML = prettyNumber(calculatePrice(i));
+function run(bldg) {
+  IO.buildings[bldg].output.innerHTML = prettyNumber(calculatePrice(bldg));
+}
+
+function runAll() {
+  for (var bldg in IO.buildings) {
+    run(bldg);
   }
 }
 
 function initialize() {
   IO.menu['nav'] = document.querySelector('nav');
-  IO.menu['screen'] = document.querySelector('.screen');
+  IO.menu['shade'] = document.querySelector('.shade');
   document.querySelectorAll('.buildings input').forEach(function (el) {
     IO.buildings[el.name] = {};
     IO.buildings[el.name]['elem'] = el;
@@ -246,7 +255,7 @@ function initialize() {
   document.querySelectorAll('.options input[type="checkbox"]').forEach(function (el) {
     IO.options[el.name] = {};
 
-    if (el.name === 'Dotjeiess, Spirit of Creation') {
+    if (el.name === 'dotjeiess') {
       IO.options[el.name].slots = {};
       document.querySelectorAll('input[name="dotjeiess-slot"]').forEach(function (slot) {
         IO.options[el.name].slots[slot.value] = slot;
@@ -258,7 +267,13 @@ function initialize() {
   document.querySelectorAll('.controls input').forEach(function (el) {
     IO.controls[el.name] = el;
   });
-  run();
+  runAll();
+}
+
+function importSave() {
+  var data = prompt("Paste your save string here");
+  if (data !== null && data !== '') parseAndImportData(data);
+  runAll();
 }
 
 initialize();

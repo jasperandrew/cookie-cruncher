@@ -222,6 +222,12 @@ nav
 					border-style: solid
 					border-color: #ccc
 
+				img
+					width: 20px
+					position: relative
+					top: 4px
+					right: 4px
+
 			input:checked ~ span
 				opacity: 1
 
@@ -250,7 +256,7 @@ nav
 				background: url('../img/jade.png')
 				background-size: contain
 			
-		input[name="Short numbers"]
+		input[name="short-numbers"]
 			& ~ span:after
 				content: " OFF"
 			&:checked ~ span:after
@@ -272,7 +278,7 @@ nav
 			text-decoration: none
 			color: #777
 
-.screen
+.shade
 	z-index: 1
 	display: block
 	position: fixed
@@ -283,7 +289,7 @@ nav
 	background: black
 	opacity: 0
 	transition: 0.3s ease-in-out
-	&.open
+	&.visible
 		opacity: 0.4
 	&.hidden
 		display: none
@@ -397,12 +403,12 @@ input:invalid
 
 @media (min-width: 850px)
 	.buildings
-		left: calc(320px + (20px * 2) + 50vw - (720px / 2) - 30px)//320px + (20px * 2)
+		left: calc(370px + (20px * 2) + 50vw - (740px / 2) - 30px)//320px + (20px * 2)
 	nav
-		width: 320px
+		width: 370px
 		padding: 0 10px 0 10px
 		height: 610px
-		left: calc(20px + 50vw - (720px / 2) - 30px)//20px
+		left: calc(20px + 50vw - (740px / 2) - 30px)//20px
 		position: absolute
 		top: 74px
 		.button
@@ -431,7 +437,7 @@ input:invalid
 					left: 0
 					transform: scaleY(-1)
 		.options
-			width: 300px
+			width: calc(100% - 20px)
 	nav:before
 		content: ''
 		display: block

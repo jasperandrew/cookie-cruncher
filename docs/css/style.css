@@ -235,6 +235,12 @@ nav .options label span:hover {
   border-style: solid;
   border-color: #ccc;
 }
+nav .options label span img {
+  width: 20px;
+  position: relative;
+  top: 4px;
+  right: 4px;
+}
 nav .options label input:checked ~ span {
   opacity: 1;
 }
@@ -267,10 +273,10 @@ nav .options label input[value=jade] {
   background: url("../img/jade.png");
   background-size: contain;
 }
-nav .options input[name="Short numbers"] ~ span:after {
+nav .options input[name=short-numbers] ~ span:after {
   content: " OFF";
 }
-nav .options input[name="Short numbers"]:checked ~ span:after {
+nav .options input[name=short-numbers]:checked ~ span:after {
   content: " ON";
 }
 nav .options input[type=button] {
@@ -294,7 +300,7 @@ nav footer a {
   color: #777;
 }
 
-.screen {
+.shade {
   z-index: 1;
   display: block;
   position: fixed;
@@ -306,10 +312,10 @@ nav footer a {
   opacity: 0;
   transition: 0.3s ease-in-out;
 }
-.screen.open {
+.shade.visible {
   opacity: 0.4;
 }
-.screen.hidden {
+.shade.hidden {
   display: none;
 }
 
@@ -438,14 +444,14 @@ input:invalid {
 }
 @media (min-width: 850px) {
   .buildings {
-    left: calc(320px + (20px * 2) + 50vw - (720px / 2) - 30px);
+    left: calc(370px + (20px * 2) + 50vw - (740px / 2) - 30px);
   }
 
   nav {
-    width: 320px;
+    width: 370px;
     padding: 0 10px 0 10px;
     height: 610px;
-    left: calc(20px + 50vw - (720px / 2) - 30px);
+    left: calc(20px + 50vw - (740px / 2) - 30px);
     position: absolute;
     top: 74px;
   }
@@ -480,7 +486,7 @@ input:invalid {
     transform: scaleY(-1);
   }
   nav .options {
-    width: 300px;
+    width: calc(100% - 20px);
   }
 
   nav:before {

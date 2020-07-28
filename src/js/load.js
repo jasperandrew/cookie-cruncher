@@ -1,4 +1,4 @@
-function load(data) {
+function parseAndImportData(data) {
     // Decode save string
     let str;
     try{
@@ -25,12 +25,12 @@ function load(data) {
 
     // Get upgrades
     let upgrades = {
-        'Season savings':160,
-        'Santa\'s dominion':168,
-        'Faberge egg':223,
-        'Divine discount':285,
-        'Starter kit':288,
-        'Starter kitchen':289
+        'season-savings':160,
+        'santas-dominion':168,
+        'faberge-egg':223,
+        'divine-discount':285,
+        'starter-kit':288,
+        'starter-kitchen':289
     };
     for(let i in upgrades){
         IO.options[i].elem.checked = parseInt(str[6][upgrades[i]*2 + 1]);
@@ -38,26 +38,19 @@ function load(data) {
 
     // Get dragon auras
     let auras = str[4].split(';').slice(36,38);
-    IO.options['Earth Shatterer'].elem.checked = 0;
-    IO.options['Fierce Hoarder'].elem.checked = 0;
+    IO.options['earth-shatterer'].elem.checked = 0;
+    IO.options['fierce-hoarder'].elem.checked = 0;
     auras.forEach(aura => {
-        if(aura === '5') IO.options['Earth shatterer'].elem.checked = 1;
-        if(aura === '7') IO.options['Fierce hoarder'].elem.checked = 1;
+        if(aura === '5') IO.options['earth-shatterer'].elem.checked = 1;
+        if(aura === '7') IO.options['fierce-hoarder'].elem.checked = 1;
     });
 
     // Get spirit aura
     let dotj = buildings[6].split(',')[4].split(' ')[0].split('/'),
         slot = (dotj[0] === '5' ? 'diamond' : (dotj[1] === '5' ? 'ruby' : (dotj[2] === '5' ? 'jade' : null)));
-    IO.options['Dotjeiess, Spirit of Creation'].elem.checked = 0;
+    IO.options['dotjeiess'].elem.checked = 0;
     if(slot){
-        IO.options['Dotjeiess, Spirit of Creation'].elem.checked = 1;
-        IO.options['Dotjeiess, Spirit of Creation'].slots[slot].checked = 1;
+        IO.options['dotjeiess'].elem.checked = 1;
+        IO.options['dotjeiess'].slots[slot].checked = 1;
     }
-}
-
-function loadPrompt() {
-    let data = prompt("Paste your save string here");
-
-    if(data !== null && data !== '')
-        load(data);
 }
