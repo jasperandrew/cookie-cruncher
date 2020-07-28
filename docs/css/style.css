@@ -9,51 +9,42 @@ body {
   -moz-user-select: none;
   -webkit-user-select: none;
   padding: 0 3vw;
-  background: url("../img/bg-stripes.jpg");
+  background: url("../img/ui/bg-stripes.jpg");
   color: #ccc;
+}
+
+h1 {
+  color: #fff;
+  font-family: "Merriweather", serif;
+  margin: 20px 0 15px 0;
+  text-align: center;
 }
 
 nav {
   display: flex;
   flex-direction: column;
   position: fixed;
-  bottom: -520px;
   left: 0;
+  top: calc(100vh - 64.4px);
   text-align: center;
   width: 100vw;
-  transition: bottom 0.2s ease-in-out;
-  height: 600px;
   z-index: 2;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.7);
-  background: url("../img/bg-noise.jpg");
-}
-nav .border {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 10px;
-  background: url("../img/wood-horiz.png");
-  background-size: cover-y;
-}
-nav .options .border {
-  right: -10px;
-  width: calc(100% + 20px);
-  transform: scaleX(-1);
+  background: url("../img/ui/bg-noise.jpg");
+  padding: 10px;
 }
 nav .button {
   position: absolute;
   top: 10px;
   right: 0;
-  width: 60px;
-  height: 60px;
-  transition: 0.2s ease-in-out;
+  width: 55px;
+  height: 55px;
   z-index: 2;
 }
 nav .button:hover {
   cursor: pointer;
 }
-nav .button div, nav .button div:before, nav .button div:after {
+nav .button div, nav .button div::before, nav .button div::after {
   content: "";
   display: block;
   background: #aaa;
@@ -62,17 +53,16 @@ nav .button div, nav .button div:before, nav .button div:after {
   width: 30px;
   border-radius: 2px;
   transform: none;
-  transition: 0.2s ease-in-out;
 }
 nav .button div {
-  top: 27px;
-  right: 16px;
+  top: 25px;
+  right: 15px;
 }
-nav .button div:before {
+nav .button div::before {
   position: relative;
   top: -11px;
 }
-nav .button div:after {
+nav .button div::after {
   position: relative;
   top: 6px;
 }
@@ -80,16 +70,28 @@ nav.open .button div {
   opacity: 1;
   transform: rotate(45deg);
 }
-nav.open .button div:before {
+nav.open .button div::before {
   opacity: 0;
 }
-nav.open .button div:after {
+nav.open .button div::after {
   top: -5px;
   transform: rotate(-90deg);
 }
 nav .controls {
   width: 100%;
-  padding-top: 20px;
+  display: flex;
+  padding: 10px 0;
+}
+nav .controls::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  width: 100vw;
+  height: 10px;
+  background: url("../img/ui/wood-horiz.png");
+  background-size: cover;
 }
 nav .controls label {
   vertical-align: middle;
@@ -104,7 +106,7 @@ nav .controls label span {
 nav .controls label span:hover {
   cursor: pointer;
 }
-nav .controls .mode {
+nav .controls .sellmode {
   cursor: pointer;
   border-style: solid;
   border-width: 1px;
@@ -112,15 +114,12 @@ nav .controls .mode {
   border-radius: 3px 0 0 3px;
   padding: 7px 40px 7px 32px;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.6);
-  position: absolute;
-  top: 23px;
-  left: 10px;
 }
-nav .controls .mode:hover {
+nav .controls .sellmode:hover {
   border-style: solid;
   border-color: #ccc;
 }
-nav .controls .mode input {
+nav .controls .sellmode input {
   display: inline-block;
   border: none;
   border-radius: 100%;
@@ -139,7 +138,7 @@ nav .controls .mode input {
   outline: none;
   cursor: pointer;
 }
-nav .controls .mode span {
+nav .controls .sellmode span {
   font-weight: 300;
   display: inline-block;
   border: none;
@@ -150,31 +149,31 @@ nav .controls .mode span {
   position: relative;
   top: -2px;
 }
-nav .controls .mode span:before, nav .controls .mode span:after {
+nav .controls .sellmode span::before, nav .controls .sellmode span::after {
   display: inline-block;
   position: relative;
   transition: 0.1s ease-in-out;
 }
-nav .controls .mode span:before {
+nav .controls .sellmode span::before {
   content: "Buy";
   top: -9px;
   left: -33px;
   opacity: 1;
 }
-nav .controls .mode span:after {
+nav .controls .sellmode span::after {
   content: "Sell";
   top: -27px;
   left: 23px;
   opacity: 0.2;
 }
-nav .controls .mode input:checked {
+nav .controls .sellmode input:checked {
   position: relative;
   left: 17px;
 }
-nav .controls .mode input:checked ~ span:before {
+nav .controls .sellmode input:checked ~ span::before {
   opacity: 0.2;
 }
-nav .controls .mode input:checked ~ span:after {
+nav .controls .sellmode input:checked ~ span::after {
   opacity: 1;
 }
 nav .controls input[type=number] {
@@ -182,10 +181,6 @@ nav .controls input[type=number] {
   border-color: #ccc;
   border-width: 1px 1px 1px 0;
   border-radius: 0 3px 3px 0;
-  position: absolute;
-  top: 23px;
-  left: 108px;
-  vertical-align: middle;
   appearance: textfield;
   -moz-appearance: textfield;
   -webkit-appearance: textfield;
@@ -200,27 +195,28 @@ nav .controls input[type=number] {
 nav .controls input[type=number]:focus {
   background: rgba(255, 255, 255, 0.25);
 }
-nav .options {
+nav .discounts::before, nav .settings::before {
+  content: "";
   position: absolute;
-  top: 70px;
-  padding-top: 25px;
-  flex: 1;
+  right: 0;
+  display: block;
+  width: 100vw;
+  height: 10px;
+  background: url("../img/ui/wood-horiz.png");
+  background-size: cover;
 }
-nav .options h2 {
+nav .discounts h2, nav .settings h2 {
   font-family: "Merriweather", serif;
   margin: 0 0 3px 0;
 }
-nav .options .buffs, nav .options .settings {
-  margin-top: 15px;
-}
-nav .options label {
+nav .discounts label, nav .settings label {
   display: inline-block;
   margin: 10px 5px;
 }
-nav .options label input[type=checkbox] {
+nav .discounts label input[type=checkbox], nav .settings label input[type=checkbox] {
   display: none;
 }
-nav .options label span {
+nav .discounts label span, nav .settings label span {
   font-weight: 300;
   border-style: outset;
   border-width: 1px;
@@ -230,21 +226,21 @@ nav .options label span {
   opacity: 0.3;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.6);
 }
-nav .options label span:hover {
+nav .discounts label span:hover, nav .settings label span:hover {
   cursor: pointer;
   border-style: solid;
   border-color: #ccc;
 }
-nav .options label span img {
+nav .discounts label span img, nav .settings label span img {
   width: 20px;
   position: relative;
   top: 4px;
   right: 4px;
 }
-nav .options label input:checked ~ span {
+nav .discounts label input:checked ~ span, nav .settings label input:checked ~ span {
   opacity: 1;
 }
-nav .options label input[type=radio] {
+nav .discounts label input[type=radio], nav .settings label input[type=radio] {
   cursor: pointer;
   appearance: textfield;
   -moz-appearance: textfield;
@@ -257,42 +253,56 @@ nav .options label input[type=radio] {
   top: 3px;
   outline: none;
 }
-nav .options label input[type=radio]:checked {
+nav .discounts label input[type=radio]:checked, nav .settings label input[type=radio]:checked {
   opacity: 1;
 }
-nav .options label input[value=diamond] {
-  background: url("../img/diamond.png");
+nav .discounts label input[value=diamond], nav .settings label input[value=diamond] {
+  background: url("../img/ui/diamond.png");
   background-size: contain;
   margin-left: 8px;
 }
-nav .options label input[value=ruby] {
-  background: url("../img/ruby.png");
+nav .discounts label input[value=ruby], nav .settings label input[value=ruby] {
+  background: url("../img/ui/ruby.png");
   background-size: contain;
 }
-nav .options label input[value=jade] {
-  background: url("../img/jade.png");
+nav .discounts label input[value=jade], nav .settings label input[value=jade] {
+  background: url("../img/ui/jade.png");
   background-size: contain;
 }
-nav .options input[name=short-numbers] ~ span:after {
+nav .discounts {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+}
+nav .discounts div {
+  margin-top: 10px;
+}
+nav .discounts div:first-child {
+  margin-top: 20px;
+}
+nav .settings h2 {
+  margin-top: 20px;
+}
+nav .settings input[name=short-numbers] ~ span:after {
   content: " OFF";
 }
-nav .options input[name=short-numbers]:checked ~ span:after {
+nav .settings input[name=short-numbers]:checked ~ span:after {
   content: " ON";
 }
-nav .options input[type=button] {
+nav .settings input[type=button] {
   display: none;
 }
-nav .options input[type=button] ~ span {
+nav .settings input[type=button] ~ span {
   opacity: 1;
 }
-nav .options input[type=button]:active ~ span {
+nav .settings input[type=button]:active ~ span {
   opacity: 0.7;
 }
 nav footer {
-  font-size: 0.55em;
+  font-size: 0.65em;
   text-align: center;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 10px;
   color: #444;
 }
 nav footer a {
@@ -320,28 +330,16 @@ nav footer a {
 }
 
 main {
-  width: 94vw;
-}
-
-h1 {
-  color: #fff;
-  font-family: "Merriweather", serif;
-  margin: 20px 0 15px 0;
-  text-align: center;
-}
-
-.buildings {
   padding: 0;
   display: flex;
   flex-direction: column;
   position: absolute;
-  width: inherit;
   padding-bottom: 90px;
 }
-.buildings div {
+main div {
   display: flex;
 }
-.buildings div img, .buildings div input, .buildings div .output {
+main div img, main div input, main div .output {
   display: inline-block;
   height: 35px;
   border-style: solid;
@@ -349,14 +347,14 @@ h1 {
   margin: 3px 0;
   vertical-align: top;
 }
-.buildings div img {
+main div img {
   border-radius: 3px 0 0 3px;
   border-width: 1px;
 }
-.buildings div img, .buildings div .output {
-  background: url("../img/bg-noise.jpg");
+main div img, main div .output {
+  background: url("../img/ui/bg-noise.jpg");
 }
-.buildings div input {
+main div input {
   appearance: textfield;
   -moz-appearance: textfield;
   -webkit-appearance: textfield;
@@ -370,16 +368,16 @@ h1 {
   font-family: "Merriweather", serif;
   padding-bottom: 2px;
 }
-.buildings div input:focus {
+main div input:focus {
   background: rgba(255, 255, 255, 0.25);
 }
-.buildings div .output {
+main div .output {
   border-radius: 0 3px 3px 0;
   border-width: 1px 1px 1px 0;
   flex-grow: 1;
   padding: 7px 5px;
 }
-.buildings div .output:before {
+main div .output::before {
   content: "";
   position: relative;
   top: 2px;
@@ -388,9 +386,9 @@ h1 {
   width: 13px;
   height: 13px;
   background-size: cover;
-  background-image: url("../img/money.png");
+  background-image: url("../img/ui/money.png");
 }
-.buildings div span.infinity {
+main div span.infinity {
   position: relative;
   top: 3px;
   font-size: 1.5em;
@@ -407,98 +405,68 @@ input:invalid {
 
 @media (max-width: 850px) {
   nav.open {
-    bottom: -190px;
-  }
-}
-@media (max-width: 720px) {
-  nav.open {
-    bottom: -150px;
-  }
-}
-@media (max-width: 520px) {
-  nav.open {
-    bottom: -115px;
-  }
-}
-@media (max-width: 416px) {
-  nav.open {
-    bottom: -75px;
-  }
-}
-@media (max-width: 357px) {
-  nav.open {
-    bottom: -35px;
-  }
-}
-@media (max-width: 307px) {
-  nav.open {
-    bottom: 0px;
+    bottom: 0;
+    top: unset;
   }
 }
 @media (min-width: 500px) {
-  .buildings {
+  main {
     width: 400px;
     position: absolute;
     left: calc(50% - 200px);
   }
 }
 @media (min-width: 850px) {
-  .buildings {
-    left: calc(370px + (20px * 2) + 50vw - (740px / 2) - 30px);
-  }
-
   nav {
-    width: 370px;
-    padding: 0 10px 0 10px;
-    height: 610px;
-    left: calc(20px + 50vw - (740px / 2) - 30px);
+    width: 400px;
+    padding: 10px;
+    left: calc(50vw - 400px - 15px);
     position: absolute;
     top: 74px;
+  }
+  nav::before, nav::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 10px;
+    height: 100%;
+    background: url("../img/ui/wood-vert.png");
+    background-size: cover;
+    z-index: 1;
+  }
+  nav::after {
+    left: unset;
+    right: 0;
+    transform: scaleY(-1);
   }
   nav .button {
     display: none;
   }
-  nav .controls .nums {
-    right: 20px;
+  nav .controls {
+    padding: 10px;
   }
-  nav .controls .mode {
-    left: 20px;
+  nav .controls::before, nav .discounts::before, nav .settings::before {
+    width: 100%;
   }
-  nav .controls input[name=quantity] {
-    left: 118px;
+  nav footer {
+    padding-bottom: 10px;
   }
-  nav .controls .border:before, nav .controls .border:after {
+  nav footer::after {
     content: "";
-    display: block;
     position: absolute;
-    top: 1px;
-    height: 609px;
-    width: 10px;
-    background: url("../img/wood-vert.png") repeat-y;
-    background-size: cover-x;
-    z-index: 1;
-  }
-  nav .controls .border:before {
+    bottom: 0;
     right: 0;
-  }
-  nav .controls .border:after {
-    left: 0;
-    transform: scaleY(-1);
-  }
-  nav .options {
-    width: calc(100% - 20px);
+    display: block;
+    width: 100%;
+    height: 10px;
+    background: url("../img/ui/wood-horiz.png");
+    background-size: cover;
   }
 
-  nav:before {
-    content: "";
-    display: block;
-    position: absolute;
-    bottom: 0px;
-    left: 0;
-    height: 10px;
-    width: 100%;
-    background: url("../img/wood-horiz.png") repeat-x;
-    background-size: cover-x;
+  main {
+    left: calc(50vw + 15px);
   }
 }
 

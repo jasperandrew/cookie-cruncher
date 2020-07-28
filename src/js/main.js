@@ -21,18 +21,30 @@ const CONSTANTS = {
 		'javascript-console': 71000000000000000000
 	},
 	discounts: {
-		'divine-discount': 0.99,
-		'season-savings': 0.99,
-		'santas-dominion': 0.99,
-		'faberge-egg': 0.99,
-		'summon-crafty-pixies': 0.98,
-		'fierce-hoarder': 0.98,
-		'everything-must-go': 0.95,
-		'dotjeiess': {
-			diamond: 0.93,
-			ruby: 0.95,
-			jade: 0.98
-		}
+		upgrades: {
+			'divine-discount': 0.99,
+			'season-savings': 0.99,
+			'santas-dominion': 0.99,
+			'faberge-egg': 0.99
+		},
+		buffs: {
+			'summon-crafty-pixies': 0.98,
+			'everything-must-go': 0.95
+		},
+		auras: {
+			'fierce-hoarder': 0.98,
+			// 'reality-bending': 0.998
+		},
+		spirits: {
+			'dotjeiess': {
+				diamond: 0.93,
+				ruby: 0.95,
+				jade: 0.98
+			}
+		},
+		// plants: {
+		// 	'cheapcap': 0.998
+		// }
 	},
 	suffix: {
 		0: '',
@@ -52,7 +64,7 @@ const CONSTANTS = {
 		42: 'tredecillion',
 		45: 'quattuordecillion',
 		48: 'quindecillion',
-		51: 'sedecillion',
+		51: 'sexdecillion',
 		54: 'septendecillion',
 		57: 'octodecillion',
 		60: 'novemdecillion',
@@ -145,14 +157,14 @@ let IO = {
 	menu: {},
 	toggleMenu: () => {
 		let shade = IO.menu.shade.classList;
-		if(shade.contains('hidden')){
+		if (shade.contains('hidden')) {
 			shade.toggle('hidden');
-			window.setTimeout(function(){
+			window.setTimeout(function() {
 				shade.toggle('open');
 			}, 10);
-		}else{
+		} else {
 			shade.toggle('open');
-			window.setTimeout(function(){
+			window.setTimeout(function() {
 				shade.toggle('hidden');
 			}, 300);
 		}
@@ -161,116 +173,179 @@ let IO = {
 	},
 
 	buildings: {},
-	buildingVal: (bldg) => IO.buildings[bldg].elem.value,
+	buildingVal: (bldg) => IO.buildings[bldg].el.value,
 
-	options: {},
-	optIsChecked: (opt) => IO.options[opt].elem.checked,
-	controls: {}
+	controls: {},
+
+	discounts: {},
+	hasDiscount: (name) => IO.discounts[name].el.checked,
+
+	settings: {}
 };
 
+/**
+ * Calculate the total multiplier
+ */
 function getMultiplier() {
-	let factor = 1;
+	let mult = 1;
 
-	for(let name in CONSTANTS.discounts){
-		let discount = CONSTANTS.discounts[name];
-		if(IO.optIsChecked(name)){
-			if(name === 'dotjeiess'){
-				for(let slot in discount){
-					if(IO.options[name].slots[slot].checked) factor *= discount[slot];
+	// upgrades stack multiplicatively
+	for (let name in CONSTANTS.discounts.upgrades) {
+		let discount = CONSTANTS.discounts.upgrades[name];
+		if (IO.hasDiscount(name)) mult *= discount;
+	}
+
+	// buffs stack multiplicatively
+	for (let name in CONSTANTS.discounts.buffs) {
+		let discount = CONSTANTS.discounts.buffs[name];
+		if (IO.hasDiscount(name)) mult *= discount;
+	}
+
+	// auras stack additively
+	let sum = 0;
+	for (let name in CONSTANTS.discounts.auras) {
+		let discount = CONSTANTS.discounts.auras[name];
+		if (IO.hasDiscount(name)) sum += discount;
+	}
+	if (sum > 0) mult *= sum;
+
+	// spirits stack multiplicatively
+	for (let name in CONSTANTS.discounts.spirits) {
+		let discount = CONSTANTS.discounts.spirits[name];
+		if (IO.hasDiscount(name)) {
+			if (name === 'dotjeiess') {
+				for (let slot in discount) {
+					if (IO.discounts[name].slots[slot].checked)
+					mult *= discount[slot];
 				}
-			}else{
-				factor *= discount;
+			} else {
+				mult *= discount;
 			}
 		}
 	}
 
-	if(IO.controls.mode.checked)
-		factor *= (IO.optIsChecked('earth-shatterer') ? 0.5 : 0.25);
+	if (IO.controls.sellmode.checked)
+		mult *= (IO.hasDiscount('earth-shatterer') ? 0.5 : 0.25);
 
-	return factor;
+	return mult;
 }
 
+/**
+ * Calculate the price for a building based on the quantity owned and quantity being purchased
+ */
 function calculatePrice(bldg) {
 	let price = 0,
-		have = IO.buildings[bldg].elem.value !== '' ? parseInt(IO.buildings[bldg].elem.value) : 0,
+		have = IO.buildings[bldg].in.value !== '' ? parseInt(IO.buildings[bldg].in.value) : 0,
 		quantity = parseInt(IO.controls.quantity.value),
-		free = (bldg==='cursor' && IO.optIsChecked('starter-kit') ? 10 : (bldg==='grandma' && IO.optIsChecked('starter-kitchen') ? 5 : 0)),
-		sellMode = IO.controls.mode.checked,
+		free = (bldg==='cursor' && IO.hasDiscount('starter-kit') ? 10 : (bldg==='grandma' && IO.hasDiscount('starter-kitchen') ? 5 : 0)),
+		sellMode = IO.controls.sellmode.checked,
 		from = (sellMode ? have - quantity : have),
 		to = (sellMode ? have : have + quantity);
 
-	for(let i = Math.max(0, from); i < Math.max(0, to); i++)
+	for (let i = Math.max(0, from); i < Math.max(0, to); i++)
 		price += CONSTANTS.base[bldg] * Math.pow(CONSTANTS.increase, Math.max(0, i-free));
 
 	return Math.ceil(price * getMultiplier());
 }
 
+/**
+ * Format a large number
+ */
 function prettyNumber(n) {
 	if(n >= Number.MAX_VALUE) return '<span class="infinity">∞</span>';
 
 	let pow = 0,
-	short = IO.optIsChecked('short-numbers'),
+	short = IO.settings['short-numbers'].checked,
 	p = (short ? 3 : 15),
 	step = (short ? 1000 : 10),
 	pstep = (short ? 3 : 1);
 
-	if(n < 1000000) return n.toLocaleString();
-	while(n.toFixed(p) >= step){
+	if (n < 1000000)
+		return n.toLocaleString();
+	
+	while (n.toFixed(p) >= step) {
 		n /= step;
 		pow += pstep;
 	}
 
 	n = n.toFixed(p).toString();
-	while(n.slice(-1) === '0') n = n.slice(0,-1);
-	if(n.slice(-1) === '.') n = n.slice(0,-1);
+
+	while (n.slice(-1) === '0')
+		n = n.slice(0,-1);
+	
+	if (n.slice(-1) === '.')
+		n = n.slice(0,-1);
 
 	return n + (short ? ' '+CONSTANTS.suffix[pow] : "e"+pow);
 }
 
+/**
+ * Run the calculations for a building
+ */
 function run(bldg) {
-	IO.buildings[bldg].output.innerHTML = prettyNumber(calculatePrice(bldg));
+	IO.buildings[bldg].out.innerHTML = prettyNumber(calculatePrice(bldg));
 }
 
+/**
+ * Run the calculations for all the buildings
+ */
 function runAll() {
 	for(let bldg in IO.buildings) run(bldg);
 }
 
+/**
+ * Store the DOM elements for the calculations
+ */
 function initialize() {
+	// Store the nav menu and shade elements
 	IO.menu['nav'] = document.querySelector('nav');
 	IO.menu['shade'] = document.querySelector('.shade');
+
+	// Store building input and output fields
 	document.querySelectorAll('.buildings input').forEach(el => {
 		IO.buildings[el.name] = {};
-		IO.buildings[el.name]['elem'] = el;
+		IO.buildings[el.name]['in'] = el;
 	});
 	document.querySelectorAll('.buildings .output').forEach(el => {
-		IO.buildings[el.id]['output'] = el;
+		IO.buildings[el.id]['out'] = el;
 	});
 
-	document.querySelectorAll('.options input[type="checkbox"]').forEach(el => {
-		IO.options[el.name] = {};
-		if(el.name === 'dotjeiess'){
-			IO.options[el.name].slots = {};
-			document.querySelectorAll('input[name="dotjeiess-slot"]').forEach(slot => {
-				IO.options[el.name].slots[slot.value] = slot;
-			});
-		}
-		IO.options[el.name]['elem'] = el;
-	});
-
+	// Store quantity and sell mode input elements
 	document.querySelectorAll('.controls input').forEach(el => {
 		IO.controls[el.name] = el;
+	});
+
+	// Store discount checkbox elements // TODO split this into the different discount types?
+	document.querySelectorAll('.discounts input[type="checkbox"]').forEach(el => {
+		IO.discounts[el.name] = {};
+		if(el.name === 'dotjeiess'){
+			IO.discounts[el.name].slots = {};
+			document.querySelectorAll('input[name="dotjeiess-slot"]').forEach(slot => {
+				IO.discounts[el.name].slots[slot.value] = slot;
+			});
+		}
+		IO.discounts[el.name]['el'] = el;
+	});
+
+	// Store settings elements
+	document.querySelectorAll('.settings input').forEach(el => {
+		IO.settings[el.name] = el;
 	});
 
 	runAll();
 }
 
+/**
+ * Import save data from a Cookie Clicker save string
+ */
 function importSave() {
     let data = prompt("Paste your save string here");
 
-    if(data !== null && data !== '')
+    if (data !== null && data !== '')
 		parseAndImportData(data);
 		
 	runAll();
 }
 
+// Go!
 initialize();

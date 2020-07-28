@@ -1,7 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400|Merriweather:700')
 
-$gutter: 3vw
-
 *
 	box-sizing: border-box
 
@@ -10,50 +8,40 @@ body
 	user-select: none
 	-moz-user-select: none
 	-webkit-user-select: none
-	padding: 0 $gutter
-	background: url('../img/bg-stripes.jpg')
+	padding: 0 3vw
+	background: url('../img/ui/bg-stripes.jpg')
 	color: #ccc
 
-$menuhgt: 70px
+h1
+	color: #fff
+	font-family: 'Merriweather', serif
+	margin: 20px 0 15px 0
+	text-align: center
+
 nav
 	display: flex
 	flex-direction: column
 	position: fixed
-	bottom: -520px
 	left: 0
+	top: calc(100vh - 64.4px)
 	text-align: center
 	width: 100vw
-	transition: bottom 0.2s ease-in-out
-	height: 600px
 	z-index: 2
 	box-shadow: 0 0 10px 5px rgba(0,0,0,0.7)
-	background: url('../img/bg-noise.jpg')
-
-	.border
-		position: absolute
-		top: 0
-		right: 0
-		width: 100%
-		height: 10px
-		background: url('../img/wood-horiz.png')
-		background-size: cover-y
-	.options .border
-		right: -10px
-		width: calc(100% + 20px)
-		transform: scaleX(-1)
+	background: url('../img/ui/bg-noise.jpg')
+	padding: 10px
 
 	.button
 		position: absolute
 		top: 10px
 		right: 0
-		width: $menuhgt - 10px
-		height: $menuhgt - 10px
-		transition: 0.2s ease-in-out
+		width: 55px
+		height: 55px
 		z-index: 2
 		&:hover
 			cursor: pointer
 
-		div, div:before, div:after
+		div, div::before, div::after
 			content: ''
 			display: block
 			background: #aaa
@@ -62,14 +50,13 @@ nav
 			width: 30px
 			border-radius: 2px
 			transform: none
-			transition: 0.2s ease-in-out
 		div
-			top: 27px
-			right: 16px
-			&:before
+			top: 25px
+			right: 15px
+			&::before
 				position: relative
 				top: -11px
-			&:after
+			&::after
 				position: relative
 				top: 6px
 
@@ -77,15 +64,28 @@ nav
 		div
 			opacity: 1
 			transform: rotate(45deg)
-			&:before
+			&::before
 				opacity: 0
-			&:after
+			&::after
 				top: -5px
 				transform: rotate(-90deg)
 
 	.controls
 		width: 100%
-		padding-top: 20px
+		display: flex
+		padding: 10px 0
+
+		&::before
+			content: ''
+			position: absolute
+			top: 0
+			right: 0
+			display: block
+			width: 100vw
+			height: 10px
+			background: url('../img/ui/wood-horiz.png')
+			background-size: cover
+
 		label
 			vertical-align: middle
 			input
@@ -97,7 +97,7 @@ nav
 				&:hover
 					cursor: pointer
 				
-		.mode
+		.sellmode
 			cursor: pointer
 			border-style: solid
 			border-width: 1px
@@ -105,9 +105,9 @@ nav
 			border-radius: 3px 0 0 3px
 			padding: 7px 40px 7px 32px
 			box-shadow: inset 0 0 5px rgba(0,0,0,0.6)
-			position: absolute
-			top: 23px
-			left: 10px
+			// position: absolute
+			// top: 23px
+			// left: 10px
 			&:hover
 				border-style: solid
 				border-color: #ccc
@@ -142,16 +142,16 @@ nav
 				position: relative
 				top: -2px
 				
-				&:before,&:after
+				&::before, &::after
 					display: inline-block
 					position: relative
 					transition: 0.1s ease-in-out
-				&:before
+				&::before
 					content: 'Buy'
 					top: -9px
 					left: -33px
 					opacity: 1
-				&:after
+				&::after
 					content:'Sell'
 					top: -27px
 					left: 23px
@@ -161,9 +161,9 @@ nav
 				position: relative
 				left: 17px
 				& ~ span
-					&:before
+					&::before
 						opacity: 0.2
-					&:after
+					&::after
 						opacity: 1
 
 		input[type='number']
@@ -171,10 +171,10 @@ nav
 			border-color: #ccc
 			border-width: 1px 1px 1px 0
 			border-radius: 0 3px 3px 0
-			position: absolute
-			top: 23px
-			left: 108px
-			vertical-align: middle
+			// position: absolute
+			// top: 23px
+			// left: 108px
+			// vertical-align: middle
 			appearance: textfield
 			-moz-appearance: textfield
 			-webkit-appearance: textfield
@@ -188,17 +188,20 @@ nav
 			&:focus
 				background: rgba(255,255,255,0.25)
 
-	.options
-		position: absolute
-		top: $menuhgt
-		padding-top: 25px
-		flex: 1
+	.discounts, .settings
+		&::before
+			content: ''
+			position: absolute
+			right: 0
+			display: block
+			width: 100vw
+			height: 10px
+			background: url('../img/ui/wood-horiz.png')
+			background-size: cover
+		
 		h2
 			font-family: 'Merriweather', serif
 			margin: 0 0 3px 0
-
-		.buffs, .settings
-			margin-top: 15px
 
 		label
 			display: inline-block
@@ -246,16 +249,31 @@ nav
 				&:checked
 					opacity: 1
 			input[value="diamond"]
-				background: url('../img/diamond.png')
+				background: url('../img/ui/diamond.png')
 				background-size: contain
 				margin-left: 8px
 			input[value="ruby"]
-				background: url('../img/ruby.png')
+				background: url('../img/ui/ruby.png')
 				background-size: contain
 			input[value="jade"]
-				background: url('../img/jade.png')
+				background: url('../img/ui/jade.png')
 				background-size: contain
-			
+				
+	.discounts
+		display: flex
+		flex-direction: column
+		padding-bottom: 10px
+
+		div
+			margin-top: 10px
+
+		div:first-child
+			margin-top: 20px
+	
+	.settings
+		h2
+			margin-top: 20px
+		
 		input[name="short-numbers"]
 			& ~ span:after
 				content: " OFF"
@@ -268,12 +286,14 @@ nav
 				opacity: 1
 			&:active ~ span
 				opacity: 0.7
+
 	footer
-		font-size: 0.55em
+		font-size: 0.65em
 		text-align: center
 		width: 100%
-		margin-top: 20px
+		margin-top: 10px
 		color: #444
+
 		a
 			text-decoration: none
 			color: #777
@@ -289,27 +309,19 @@ nav
 	background: black
 	opacity: 0
 	transition: 0.3s ease-in-out
+
 	&.visible
 		opacity: 0.4
+	
 	&.hidden
 		display: none
 
 main
-	width: 100vw - 2 * $gutter
-
-h1
-	color: #fff
-	font-family: 'Merriweather', serif
-	margin: 20px 0 15px 0
-	text-align: center
-
-.buildings
 	padding: 0
 	display: flex
 	flex-direction: column
 	position: absolute
-	width: inherit
-	padding-bottom: $menuhgt + 20px
+	padding-bottom: 70px + 20px
 
 	div
 		$hgt: 35px
@@ -328,7 +340,7 @@ h1
 			border-width: 1px
 		
 		img, .output
-			background: url('../img/bg-noise.jpg')
+			background: url('../img/ui/bg-noise.jpg')
 
 		input
 			appearance: textfield
@@ -351,7 +363,7 @@ h1
 			border-width: 1px 1px 1px 0
 			flex-grow: 1
 			padding: 7px 5px
-			&:before
+			&::before
 				content: ''
 				position: relative
 				top: 2px
@@ -360,7 +372,7 @@ h1
 				width: 13px
 				height: 13px
 				background-size: cover
-				background-image: url('../img/money.png')
+				background-image: url('../img/ui/money.png')
 		
 		span.infinity
 			position: relative
@@ -377,74 +389,63 @@ input:invalid
 
 @media (max-width: 850px)
 	nav.open
-			bottom: -190px
-@media (max-width: 720px)
-	nav.open
-			bottom: -150px
-@media (max-width: 520px)
-	nav.open
-			bottom: -115px
-@media (max-width: 416px)
-	nav.open
-			bottom: -75px
-@media (max-width: 357px)
-	nav.open
-			bottom: -35px
-@media (max-width: 307px)
-	nav.open
-			bottom: 0px
-
+		bottom: 0
+		top: unset
 
 @media (min-width: 500px)
-	.buildings
+	main
 		width: 400px
 		position: absolute
 		left: calc(50% - 200px)
 
 @media (min-width: 850px)
-	.buildings
-		left: calc(370px + (20px * 2) + 50vw - (740px / 2) - 30px)//320px + (20px * 2)
 	nav
-		width: 370px
-		padding: 0 10px 0 10px
-		height: 610px
-		left: calc(20px + 50vw - (740px / 2) - 30px)//20px
+		width: 400px
+		padding: 10px
+		left: calc(50vw - 400px - 15px)
 		position: absolute
 		top: 74px
+
+		&::before, &::after
+			content: ''
+			position: absolute
+			top: 0
+			left: 0
+			display: block
+			width: 10px
+			height: 100%
+			background: url('../img/ui/wood-vert.png')
+			background-size: cover
+			z-index: 1
+		
+		&::after
+			left: unset
+			right: 0
+			transform: scaleY(-1)
+
 		.button
 			display: none
+
 		.controls
-			.nums
-				right: 20px
-			.mode
-				left: 20px
-			input[name="quantity"]
-				left: 118px
-			.border
-				&:before, &:after
-					content: ''
-					display: block
-					position: absolute
-					top: 1px
-					height: 609px
-					width: 10px
-					background: url('../img/wood-vert.png') repeat-y
-					background-size: cover-x
-					z-index: 1
-				&:before
-					right: 0
-				&:after
-					left: 0
-					transform: scaleY(-1)
-		.options
-			width: calc(100% - 20px)
-	nav:before
-		content: ''
-		display: block
-		position: absolute
-		bottom: 0px
-		left: 0
-		height: 10px
-		width: 100%
-		background: url('../img/wood-horiz.png') repeat-x
-		background-size: cover-x
+			padding: 10px
+		
+		.controls, .discounts, .settings
+			&::before
+				width: 100%
+		
+		footer
+			padding-bottom: 10px
+
+			&::after
+				content: ''
+				position: absolute
+				bottom: 0
+				right: 0
+				display: block
+				width: 100%
+				height: 10px
+				background: url('../img/ui/wood-horiz.png')
+				background-size: cover
+	
+	main
+		left: calc(50vw + 15px)

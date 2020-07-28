@@ -9,67 +9,79 @@ html(lang="en")
 		title Cookie Cruncher
 
 	body
-		nav(class="")
+		h1 Cookie Cruncher
+
+		div(class="shade hidden",onclick="IO.toggleMenu()")
+
+		nav(class="menu")
 			div(class="button",onclick="IO.toggleMenu()")
 				div
+			
 			div(class="controls")
-				div(class="border")
-				label(class="mode")
-					input(type="checkbox",name="mode",onclick="runAll()")
+				label(class="sellmode")
+					input(type="checkbox",name="sellmode",onclick="runAll()")
 					span
 				input(type="number",name="quantity",min=0,max=9999,step=1,value=0,autocomplete="off",oninput="runAll()")
-			div(class="options")
-				div(class="border")
+			
+			div(class="discounts")
 				div(class="upgrades")
-					h2 Upgrades/Auras
-					each upgrade in [['Season savings','season-savings'],['Santa\'s dominion','santas-dominion'],['Faberge egg','faberge-egg'],['Divine discount','divine-discount'],['Starter kit','starter-kit'],['Starter kitchen','starter-kitchen'],['Fierce Hoarder','fierce-hoarder'],['Earth Shatterer','earth-shatterer']]
+					h2 Upgrades
+					each upgrade in [['Season savings','season-savings'],['Santa\'s dominion','santas-dominion'],['Faberge egg','faberge-egg'],['Divine discount','divine-discount'],['Starter kit','starter-kit'],['Starter kitchen','starter-kitchen']]
 						label
 							input(type="checkbox",name=upgrade[1],value=upgrade[0],onclick="runAll()")
 							span
-								img(alt=upgrade[0],src="img/"+upgrade[1]+".png")
+								img(alt=upgrade[0],src="img/discounts/"+upgrade[1]+".png")
 								!= upgrade[0]
-					label
-						input(type="checkbox",name="dotjeiess",value="dotjeiess",onclick="runAll()")
-						span
-							img(alt="Dotjeiess",src="img/dotjeiess.png")
-							| Dotjeiess
-							input(type="radio",name="dotjeiess-slot",value="diamond",onclick="runAll()",checked)
-							input(type="radio",name="dotjeiess-slot",value="ruby",onclick="runAll()")
-							input(type="radio",name="dotjeiess-slot",value="jade",onclick="runAll()")
+						
 				div(class="buffs")
-					h2 Buffs/Spells
+					h2 Buffs
 					each buff in [['Everything must go','everything-must-go'],['Summon Crafty Pixies','summon-crafty-pixies']]
 						label
 							input(type="checkbox",name=buff[1],value=buff[1],onclick="runAll()")
 							span
-								img(alt=buff[0],src="img/"+buff[1]+".png")
+								img(alt=buff[0],src="img/discounts/"+buff[1]+".png")
 								!= buff[0]
+				
+				div(class="auras")
+					h2 Auras
+					each aura in [['Fierce Hoarder','fierce-hoarder'],['Earth Shatterer','earth-shatterer']]
+						label
+							input(type="checkbox",name=aura[1],value=aura[1],onclick="runAll()")
+							span
+								img(alt=aura[0],src="img/discounts/"+aura[1]+".png")
+								!= aura[0]
+				
+				div(class="spirits")
+					h2 Spirits
+					each spirit in [['Dotjeiess','dotjeiess']]
+						label
+							input(type="checkbox",name=spirit[1],value=spirit[1],onclick="runAll()")
+							span
+								img(alt=spirit[0],src="img/discounts/"+spirit[1]+".png")
+								!= spirit[0]
+								input(type="radio",name=spirit[1]+"-slot",value="diamond",onclick="runAll()")
+								input(type="radio",name=spirit[1]+"-slot",value="ruby",onclick="runAll()")
+								input(type="radio",name=spirit[1]+"-slot",value="jade",onclick="runAll()")
 
-				div(class="settings")
-					h2 Settings
-					label
-						input(type="checkbox",name="short-numbers",onclick="runAll()",checked=true)
-						span="Short numbers"
-					label
-						input(type="button",name="import-save-data",onclick="importSave()")
-						span="Import save data"
-				footer
-					| Created by Jasper. Check it out on 
-					a(href="http://github.com/jasperandrew/cookie-cruncher/") Github
-					| !
+			div(class="settings")
+				h2 Settings
+				label
+					input(type="checkbox",name="short-numbers",onclick="runAll()",checked=true)
+					span="Short numbers"
+				label
+					input(type="button",name="import-save-data",onclick="importSave()")
+					span="Import save data"
+			footer
+				| Created by Jasper. Check it out on 
+				a(href="http://github.com/jasperandrew/cookie-cruncher/") Github
+				| !
 
-		div(class="shade hidden",onclick="IO.toggleMenu()")
-
-		main
-			h1 Cookie Cruncher
-			div(class="buildings")
-				each bldg in ['cursor','grandma','farm','mine','factory','bank','temple','wizard-tower','shipment','alchemy-lab','portal','time-machine','antimatter-condenser','prism','chancemaker','fractal-engine','javascript-console']
-					div
-						img(alt=bldg,src="img/"+bldg+".png")
-						input(type="number",name=bldg,min=0,max=9999,step=1,value=0,autocomplete="off",oninput="run('"+bldg+"')")
-						span(class="output",id=bldg) 0
-
-		div(class="popup")
+		main(class="buildings")
+			each bldg in ['cursor','grandma','farm','mine','factory','bank','temple','wizard-tower','shipment','alchemy-lab','portal','time-machine','antimatter-condenser','prism','chancemaker','fractal-engine','javascript-console']
+				div
+					img(alt=bldg,src="img/buildings/"+bldg+".png")
+					input(type="number",name=bldg,min=0,max=9999,step=1,value=0,autocomplete="off",oninput="run('"+bldg+"')")
+					span(class="output",id=bldg) 0
 
 		script(src="js/base64.js")
 		script(src="js/load.js")

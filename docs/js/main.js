@@ -22,18 +22,30 @@ var CONSTANTS = {
     'javascript-console': 71000000000000000000
   },
   discounts: {
-    'divine-discount': 0.99,
-    'season-savings': 0.99,
-    'santas-dominion': 0.99,
-    'faberge-egg': 0.99,
-    'summon-crafty-pixies': 0.98,
-    'fierce-hoarder': 0.98,
-    'everything-must-go': 0.95,
-    'dotjeiess': {
-      diamond: 0.93,
-      ruby: 0.95,
-      jade: 0.98
-    }
+    upgrades: {
+      'divine-discount': 0.99,
+      'season-savings': 0.99,
+      'santas-dominion': 0.99,
+      'faberge-egg': 0.99
+    },
+    buffs: {
+      'summon-crafty-pixies': 0.98,
+      'everything-must-go': 0.95
+    },
+    auras: {
+      'fierce-hoarder': 0.98 // 'reality-bending': 0.998
+
+    },
+    spirits: {
+      'dotjeiess': {
+        diamond: 0.93,
+        ruby: 0.95,
+        jade: 0.98
+      }
+    } // plants: {
+    // 	'cheapcap': 0.998
+    // }
+
   },
   suffix: {
     0: '',
@@ -53,7 +65,7 @@ var CONSTANTS = {
     42: 'tredecillion',
     45: 'quattuordecillion',
     48: 'quindecillion',
-    51: 'sedecillion',
+    51: 'sexdecillion',
     54: 'septendecillion',
     57: 'octodecillion',
     60: 'novemdecillion',
@@ -162,42 +174,71 @@ var IO = {
   },
   buildings: {},
   buildingVal: function buildingVal(bldg) {
-    return IO.buildings[bldg].elem.value;
+    return IO.buildings[bldg].el.value;
   },
-  options: {},
-  optIsChecked: function optIsChecked(opt) {
-    return IO.options[opt].elem.checked;
+  controls: {},
+  discounts: {},
+  hasDiscount: function hasDiscount(name) {
+    return IO.discounts[name].el.checked;
   },
-  controls: {}
+  settings: {}
 };
+/**
+ * Calculate the total multiplier
+ */
 
 function getMultiplier() {
-  var factor = 1;
+  var mult = 1; // upgrades stack multiplicatively
 
-  for (var name in CONSTANTS.discounts) {
-    var discount = CONSTANTS.discounts[name];
+  for (var name in CONSTANTS.discounts.upgrades) {
+    var discount = CONSTANTS.discounts.upgrades[name];
+    if (IO.hasDiscount(name)) mult *= discount;
+  } // buffs stack multiplicatively
 
-    if (IO.optIsChecked(name)) {
-      if (name === 'dotjeiess') {
-        for (var slot in discount) {
-          if (IO.options[name].slots[slot].checked) factor *= discount[slot];
+
+  for (var _name in CONSTANTS.discounts.buffs) {
+    var _discount = CONSTANTS.discounts.buffs[_name];
+    if (IO.hasDiscount(_name)) mult *= _discount;
+  } // auras stack additively
+
+
+  var sum = 0;
+
+  for (var _name2 in CONSTANTS.discounts.auras) {
+    var _discount2 = CONSTANTS.discounts.auras[_name2];
+    if (IO.hasDiscount(_name2)) sum += _discount2;
+  }
+
+  if (sum > 0) mult *= sum; // spirits stack multiplicatively
+
+  for (var _name3 in CONSTANTS.discounts.spirits) {
+    var _discount3 = CONSTANTS.discounts.spirits[_name3];
+
+    if (IO.hasDiscount(_name3)) {
+      if (_name3 === 'dotjeiess') {
+        for (var slot in _discount3) {
+          if (IO.discounts[_name3].slots[slot].checked) mult *= _discount3[slot];
         }
       } else {
-        factor *= discount;
+        mult *= _discount3;
       }
     }
   }
 
-  if (IO.controls.mode.checked) factor *= IO.optIsChecked('earth-shatterer') ? 0.5 : 0.25;
-  return factor;
+  if (IO.controls.sellmode.checked) mult *= IO.hasDiscount('earth-shatterer') ? 0.5 : 0.25;
+  return mult;
 }
+/**
+ * Calculate the price for a building based on the quantity owned and quantity being purchased
+ */
+
 
 function calculatePrice(bldg) {
   var price = 0,
-      have = IO.buildings[bldg].elem.value !== '' ? parseInt(IO.buildings[bldg].elem.value) : 0,
+      have = IO.buildings[bldg].in.value !== '' ? parseInt(IO.buildings[bldg].in.value) : 0,
       quantity = parseInt(IO.controls.quantity.value),
-      free = bldg === 'cursor' && IO.optIsChecked('starter-kit') ? 10 : bldg === 'grandma' && IO.optIsChecked('starter-kitchen') ? 5 : 0,
-      sellMode = IO.controls.mode.checked,
+      free = bldg === 'cursor' && IO.hasDiscount('starter-kit') ? 10 : bldg === 'grandma' && IO.hasDiscount('starter-kitchen') ? 5 : 0,
+      sellMode = IO.controls.sellmode.checked,
       from = sellMode ? have - quantity : have,
       to = sellMode ? have : have + quantity;
 
@@ -207,11 +248,15 @@ function calculatePrice(bldg) {
 
   return Math.ceil(price * getMultiplier());
 }
+/**
+ * Format a large number
+ */
+
 
 function prettyNumber(n) {
   if (n >= Number.MAX_VALUE) return '<span class="infinity">∞</span>';
   var pow = 0,
-      short = IO.optIsChecked('short-numbers'),
+      short = IO.settings['short-numbers'].checked,
       p = short ? 3 : 15,
       step = short ? 1000 : 10,
       pstep = short ? 3 : 1;
@@ -231,49 +276,74 @@ function prettyNumber(n) {
   if (n.slice(-1) === '.') n = n.slice(0, -1);
   return n + (short ? ' ' + CONSTANTS.suffix[pow] : "e" + pow);
 }
+/**
+ * Run the calculations for a building
+ */
+
 
 function run(bldg) {
-  IO.buildings[bldg].output.innerHTML = prettyNumber(calculatePrice(bldg));
+  IO.buildings[bldg].out.innerHTML = prettyNumber(calculatePrice(bldg));
 }
+/**
+ * Run the calculations for all the buildings
+ */
+
 
 function runAll() {
   for (var bldg in IO.buildings) {
     run(bldg);
   }
 }
+/**
+ * Store the DOM elements for the calculations
+ */
+
 
 function initialize() {
+  // Store the nav menu and shade elements
   IO.menu['nav'] = document.querySelector('nav');
-  IO.menu['shade'] = document.querySelector('.shade');
+  IO.menu['shade'] = document.querySelector('.shade'); // Store building input and output fields
+
   document.querySelectorAll('.buildings input').forEach(function (el) {
     IO.buildings[el.name] = {};
-    IO.buildings[el.name]['elem'] = el;
+    IO.buildings[el.name]['in'] = el;
   });
   document.querySelectorAll('.buildings .output').forEach(function (el) {
-    IO.buildings[el.id]['output'] = el;
-  });
-  document.querySelectorAll('.options input[type="checkbox"]').forEach(function (el) {
-    IO.options[el.name] = {};
+    IO.buildings[el.id]['out'] = el;
+  }); // Store quantity and sell mode input elements
+
+  document.querySelectorAll('.controls input').forEach(function (el) {
+    IO.controls[el.name] = el;
+  }); // Store discount checkbox elements // TODO split this into the different discount types?
+
+  document.querySelectorAll('.discounts input[type="checkbox"]').forEach(function (el) {
+    IO.discounts[el.name] = {};
 
     if (el.name === 'dotjeiess') {
-      IO.options[el.name].slots = {};
+      IO.discounts[el.name].slots = {};
       document.querySelectorAll('input[name="dotjeiess-slot"]').forEach(function (slot) {
-        IO.options[el.name].slots[slot.value] = slot;
+        IO.discounts[el.name].slots[slot.value] = slot;
       });
     }
 
-    IO.options[el.name]['elem'] = el;
-  });
-  document.querySelectorAll('.controls input').forEach(function (el) {
-    IO.controls[el.name] = el;
+    IO.discounts[el.name]['el'] = el;
+  }); // Store settings elements
+
+  document.querySelectorAll('.settings input').forEach(function (el) {
+    IO.settings[el.name] = el;
   });
   runAll();
 }
+/**
+ * Import save data from a Cookie Clicker save string
+ */
+
 
 function importSave() {
   var data = prompt("Paste your save string here");
   if (data !== null && data !== '') parseAndImportData(data);
   runAll();
-}
+} // Go!
+
 
 initialize();
