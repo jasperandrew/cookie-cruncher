@@ -22,29 +22,52 @@ const CONSTANTS = {
 	},
 	discounts: {
 		upgrades: {
-			'divine-discount': 0.99,
-			'season-savings': 0.99,
-			'santas-dominion': 0.99,
-			'faberge-egg': 0.99
+			'divine-discount': 0.01,
+			'season-savings': 0.01,
+			'santas-dominion': 0.01,
+			'faberge-egg': 0.01,
+		},
+		fortunes: {
+			'100': 0.01,
+			buildings: [ 0.07, {
+				'cursor': '001',
+				'grandma': '002',
+				'farm': '003',
+				'mine': '004',
+				'factory': '005',
+				'bank': '006',
+				'temple': '007',
+				'wizard-tower': '008',
+				'shipment': '009',
+				'alchemy-lab': '010',
+				'portal': '011',
+				'time-machine': '012',
+				'antimatter-condenser': '013',
+				'prism': '014',
+				'chancemaker': '015',
+				'fractal-engine': '016',
+				'javascript-console': '017' }
+			]
 		},
 		buffs: {
-			'summon-crafty-pixies': 0.98,
-			'everything-must-go': 0.95
+			'summon-crafty-pixies': 0.02,
+			'everything-must-go': 0.05
 		},
 		auras: {
+			'earth-shatterer': 0.5,
 			'fierce-hoarder': 0.02,
 			'reality-bending': 0.002
 		},
 		spirits: {
 			'dotjeiess': {
-				diamond: 0.93,
-				ruby: 0.95,
-				jade: 0.98
+				diamond: 0.07,
+				ruby: 0.05,
+				jade: 0.02
 			}
 		},
-		// plants: {
-		// 	'cheapcap': 0.998
-		// }
+		plants: {
+			'cheapcap': 0.002
+		}
 	},
 	suffix: {
 		0: '',
@@ -173,12 +196,12 @@ let IO = {
 	},
 
 	buildings: {},
-	buildingVal: (bldg) => IO.buildings[bldg].el.value,
+	buildingVal: (bldg) => (bldg in IO.buildings ? IO.buildings[bldg].el.value : null),
 
 	controls: {},
 
 	discounts: {},
-	hasDiscount: (name) => IO.discounts[name].el.checked,
+	hasDiscount: (name) => (name in IO.discounts) && IO.discounts[name].el.checked,
 
 	settings: {}
 };
@@ -186,19 +209,33 @@ let IO = {
 /**
  * Calculate the total multiplier
  */
-function getMultiplier() {
+function getMultiplier(bldg) {
 	let mult = 1;
 
 	// upgrades stack multiplicatively
 	for (let name in CONSTANTS.discounts.upgrades) {
 		let discount = CONSTANTS.discounts.upgrades[name];
-		if (IO.hasDiscount(name)) mult *= discount;
+		if (IO.hasDiscount(name)) mult *= (1 - discount);
+	}
+
+	// fortunes are for individual buildings, mostly
+	for (let name in CONSTANTS.discounts.fortunes) {
+		let discount = CONSTANTS.discounts.fortunes[name],
+			num = name;
+		if (name === "buildings") {
+			num = discount[1][bldg];
+			discount = discount[0];
+		}
+		if (IO.hasDiscount('fortune-'+num)) {
+			console.log(num);
+			mult *= (1 - discount);
+		}
 	}
 
 	// buffs stack multiplicatively
 	for (let name in CONSTANTS.discounts.buffs) {
 		let discount = CONSTANTS.discounts.buffs[name];
-		if (IO.hasDiscount(name)) mult *= discount;
+		if (IO.hasDiscount(name)) mult *= (1 - discount);
 	}
 
 	// auras stack additively
@@ -216,16 +253,19 @@ function getMultiplier() {
 			if (name === 'dotjeiess') {
 				for (let slot in discount) {
 					if (IO.discounts[name].slots[slot].checked)
-					mult *= discount[slot];
+					mult *= (1 - discount[slot]);
 				}
 			} else {
-				mult *= discount;
+				mult *= (1 - discount);
 			}
 		}
 	}
 
-	if (IO.controls.sellmode.checked)
-		mult *= (IO.hasDiscount('earth-shatterer') ? 0.5 : 0.25);
+	// sell mode calculations
+	if (IO.controls.sellmode.checked) {
+		let discount = CONSTANTS.discounts.auras['earth-shatterer'];
+		mult *= (IO.hasDiscount('earth-shatterer') ? discount : 0.25);
+	}
 
 	return mult;
 }
@@ -245,7 +285,7 @@ function calculatePrice(bldg) {
 	for (let i = Math.max(0, from); i < Math.max(0, to); i++)
 		price += CONSTANTS.base[bldg] * Math.pow(CONSTANTS.increase, Math.max(0, i-free));
 
-	return Math.ceil(price * getMultiplier());
+	return Math.ceil(price * getMultiplier(bldg));
 }
 
 /**

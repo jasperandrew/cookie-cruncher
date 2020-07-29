@@ -23,29 +23,52 @@ var CONSTANTS = {
   },
   discounts: {
     upgrades: {
-      'divine-discount': 0.99,
-      'season-savings': 0.99,
-      'santas-dominion': 0.99,
-      'faberge-egg': 0.99
+      'divine-discount': 0.01,
+      'season-savings': 0.01,
+      'santas-dominion': 0.01,
+      'faberge-egg': 0.01
+    },
+    fortunes: {
+      '100': 0.01,
+      buildings: [0.07, {
+        'cursor': '001',
+        'grandma': '002',
+        'farm': '003',
+        'mine': '004',
+        'factory': '005',
+        'bank': '006',
+        'temple': '007',
+        'wizard-tower': '008',
+        'shipment': '009',
+        'alchemy-lab': '010',
+        'portal': '011',
+        'time-machine': '012',
+        'antimatter-condenser': '013',
+        'prism': '014',
+        'chancemaker': '015',
+        'fractal-engine': '016',
+        'javascript-console': '017'
+      }]
     },
     buffs: {
-      'summon-crafty-pixies': 0.98,
-      'everything-must-go': 0.95
+      'summon-crafty-pixies': 0.02,
+      'everything-must-go': 0.05
     },
     auras: {
+      'earth-shatterer': 0.5,
       'fierce-hoarder': 0.02,
       'reality-bending': 0.002
     },
     spirits: {
       'dotjeiess': {
-        diamond: 0.93,
-        ruby: 0.95,
-        jade: 0.98
+        diamond: 0.07,
+        ruby: 0.05,
+        jade: 0.02
       }
-    } // plants: {
-    // 	'cheapcap': 0.998
-    // }
-
+    },
+    plants: {
+      'cheapcap': 0.002
+    }
   },
   suffix: {
     0: '',
@@ -174,12 +197,12 @@ var IO = {
   },
   buildings: {},
   buildingVal: function buildingVal(bldg) {
-    return IO.buildings[bldg].el.value;
+    return bldg in IO.buildings ? IO.buildings[bldg].el.value : null;
   },
   controls: {},
   discounts: {},
   hasDiscount: function hasDiscount(name) {
-    return IO.discounts[name].el.checked;
+    return name in IO.discounts && IO.discounts[name].el.checked;
   },
   settings: {}
 };
@@ -187,45 +210,66 @@ var IO = {
  * Calculate the total multiplier
  */
 
-function getMultiplier() {
+function getMultiplier(bldg) {
   var mult = 1; // upgrades stack multiplicatively
 
   for (var name in CONSTANTS.discounts.upgrades) {
     var discount = CONSTANTS.discounts.upgrades[name];
-    if (IO.hasDiscount(name)) mult *= discount;
+    if (IO.hasDiscount(name)) mult *= 1 - discount;
+  } // fortunes are for individual buildings, mostly
+
+
+  for (var _name in CONSTANTS.discounts.fortunes) {
+    var _discount = CONSTANTS.discounts.fortunes[_name],
+        num = _name;
+
+    if (_name === "buildings") {
+      num = _discount[1][bldg];
+      _discount = _discount[0];
+    }
+
+    if (IO.hasDiscount('fortune-' + num)) {
+      console.log(num);
+      mult *= 1 - _discount;
+    }
   } // buffs stack multiplicatively
 
 
-  for (var _name in CONSTANTS.discounts.buffs) {
-    var _discount = CONSTANTS.discounts.buffs[_name];
-    if (IO.hasDiscount(_name)) mult *= _discount;
+  for (var _name2 in CONSTANTS.discounts.buffs) {
+    var _discount2 = CONSTANTS.discounts.buffs[_name2];
+    if (IO.hasDiscount(_name2)) mult *= 1 - _discount2;
   } // auras stack additively
 
 
   var sum = 0;
 
-  for (var _name2 in CONSTANTS.discounts.auras) {
-    var _discount2 = CONSTANTS.discounts.auras[_name2];
-    if (IO.hasDiscount(_name2)) sum += _discount2;
+  for (var _name3 in CONSTANTS.discounts.auras) {
+    var _discount3 = CONSTANTS.discounts.auras[_name3];
+    if (IO.hasDiscount(_name3)) sum += _discount3;
   }
 
   if (sum > 0) mult *= 1 - sum; // spirits stack multiplicatively
 
-  for (var _name3 in CONSTANTS.discounts.spirits) {
-    var _discount3 = CONSTANTS.discounts.spirits[_name3];
+  for (var _name4 in CONSTANTS.discounts.spirits) {
+    var _discount4 = CONSTANTS.discounts.spirits[_name4];
 
-    if (IO.hasDiscount(_name3)) {
-      if (_name3 === 'dotjeiess') {
-        for (var slot in _discount3) {
-          if (IO.discounts[_name3].slots[slot].checked) mult *= _discount3[slot];
+    if (IO.hasDiscount(_name4)) {
+      if (_name4 === 'dotjeiess') {
+        for (var slot in _discount4) {
+          if (IO.discounts[_name4].slots[slot].checked) mult *= 1 - _discount4[slot];
         }
       } else {
-        mult *= _discount3;
+        mult *= 1 - _discount4;
       }
     }
+  } // sell mode calculations
+
+
+  if (IO.controls.sellmode.checked) {
+    var _discount5 = CONSTANTS.discounts.auras['earth-shatterer'];
+    mult *= IO.hasDiscount('earth-shatterer') ? _discount5 : 0.25;
   }
 
-  if (IO.controls.sellmode.checked) mult *= IO.hasDiscount('earth-shatterer') ? 0.5 : 0.25;
   return mult;
 }
 /**
@@ -246,7 +290,7 @@ function calculatePrice(bldg) {
     price += CONSTANTS.base[bldg] * Math.pow(CONSTANTS.increase, Math.max(0, i - free));
   }
 
-  return Math.ceil(price * getMultiplier());
+  return Math.ceil(price * getMultiplier(bldg));
 }
 /**
  * Format a large number

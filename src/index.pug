@@ -32,7 +32,16 @@ html(lang="en")
 							span
 								img(alt=upgrade[0],src="img/discounts/"+upgrade[1]+".png")
 								!= upgrade[0]
-						
+
+				div(class="fortunes")
+					h2 Fortunes
+					each num in ['001','002','003','004','005','006','007','008','009','010','011','012','013','014','015','016','017','100']
+						label
+							input(type="checkbox",name='fortune-'+num,value='fortune-'+num,onclick="runAll()")
+							span
+								img(alt='Fortune #'+num,src="img/discounts/fortune-"+num+".png")
+								!= "#"+num
+
 				div(class="buffs")
 					h2 Buffs
 					each buff in [['Everything must go','everything-must-go'],['Summon Crafty Pixies','summon-crafty-pixies']]
