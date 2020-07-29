@@ -228,10 +228,7 @@ function getMultiplier(bldg) {
       _discount = _discount[0];
     }
 
-    if (IO.hasDiscount('fortune-' + num)) {
-      console.log(num);
-      mult *= 1 - _discount;
-    }
+    if (IO.hasDiscount('fortune-' + num)) mult *= 1 - _discount;
   } // buffs stack multiplicatively
 
 
