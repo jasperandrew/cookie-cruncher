@@ -391,16 +391,16 @@ input:invalid
 	-moz-box-shadow: none
 	-webkit-box-shadow: none
 
-@media (max-width: 850px)
-	#menu.open
-		bottom: 0
-		top: unset
-
 @media (min-width: 500px)
 	#buildings
 		width: 400px
 		position: absolute
 		left: calc(50% - 200px)
+
+@media (max-width: 850px)
+	#menu.open
+		bottom: 0
+		top: unset
 
 @media (min-width: 850px)
 	#menu
@@ -409,6 +409,8 @@ input:invalid
 		left: calc(50vw - 400px - 15px)
 		position: absolute
 		top: 74px
+		height: unset
+		overflow-y: unset
 
 		&::before, &::after
 			content: ''
