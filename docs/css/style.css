@@ -13,14 +13,14 @@ body {
   color: #ccc;
 }
 
-h1 {
+#title {
   color: #fff;
   font-family: "Merriweather", serif;
   margin: 20px 0 15px 0;
   text-align: center;
 }
 
-nav {
+#menu {
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -33,7 +33,7 @@ nav {
   background: url("../img/ui/bg-noise.jpg");
   padding: 10px;
 }
-nav .button {
+#menu .button {
   position: absolute;
   top: 10px;
   right: 0;
@@ -41,10 +41,10 @@ nav .button {
   height: 55px;
   z-index: 2;
 }
-nav .button:hover {
+#menu .button:hover {
   cursor: pointer;
 }
-nav .button div, nav .button div::before, nav .button div::after {
+#menu .button div, #menu .button div::before, #menu .button div::after {
   content: "";
   display: block;
   background: #aaa;
@@ -54,35 +54,35 @@ nav .button div, nav .button div::before, nav .button div::after {
   border-radius: 2px;
   transform: none;
 }
-nav .button div {
+#menu .button div {
   top: 25px;
   right: 15px;
 }
-nav .button div::before {
+#menu .button div::before {
   position: relative;
   top: -11px;
 }
-nav .button div::after {
+#menu .button div::after {
   position: relative;
   top: 6px;
 }
-nav.open .button div {
+#menu.open .button div {
   opacity: 1;
   transform: rotate(45deg);
 }
-nav.open .button div::before {
+#menu.open .button div::before {
   opacity: 0;
 }
-nav.open .button div::after {
+#menu.open .button div::after {
   top: -5px;
   transform: rotate(-90deg);
 }
-nav .controls {
+#menu #controls {
   width: 100%;
   display: flex;
   padding: 10px 0;
 }
-nav .controls::before {
+#menu #controls::before {
   content: "";
   position: absolute;
   top: 0;
@@ -93,20 +93,20 @@ nav .controls::before {
   background: url("../img/ui/wood-horiz.png");
   background-size: cover;
 }
-nav .controls label {
+#menu #controls label {
   vertical-align: middle;
 }
-nav .controls label input {
+#menu #controls label input {
   display: none;
 }
-nav .controls label span {
+#menu #controls label span {
   font-weight: 300;
   vertical-align: middle;
 }
-nav .controls label span:hover {
+#menu #controls label span:hover {
   cursor: pointer;
 }
-nav .controls .sellmode {
+#menu #controls #sellmode {
   cursor: pointer;
   border-style: solid;
   border-width: 1px;
@@ -115,11 +115,11 @@ nav .controls .sellmode {
   padding: 7px 40px 7px 32px;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.6);
 }
-nav .controls .sellmode:hover {
+#menu #controls #sellmode:hover {
   border-style: solid;
   border-color: #ccc;
 }
-nav .controls .sellmode input {
+#menu #controls #sellmode input {
   display: inline-block;
   border: none;
   border-radius: 100%;
@@ -138,7 +138,7 @@ nav .controls .sellmode input {
   outline: none;
   cursor: pointer;
 }
-nav .controls .sellmode span {
+#menu #controls #sellmode span {
   font-weight: 300;
   display: inline-block;
   border: none;
@@ -149,34 +149,34 @@ nav .controls .sellmode span {
   position: relative;
   top: -2px;
 }
-nav .controls .sellmode span::before, nav .controls .sellmode span::after {
+#menu #controls #sellmode span::before, #menu #controls #sellmode span::after {
   display: inline-block;
   position: relative;
   transition: 0.1s ease-in-out;
 }
-nav .controls .sellmode span::before {
+#menu #controls #sellmode span::before {
   content: "Buy";
   top: -9px;
   left: -33px;
   opacity: 1;
 }
-nav .controls .sellmode span::after {
+#menu #controls #sellmode span::after {
   content: "Sell";
   top: -27px;
   left: 23px;
   opacity: 0.2;
 }
-nav .controls .sellmode input:checked {
+#menu #controls #sellmode input:checked {
   position: relative;
   left: 17px;
 }
-nav .controls .sellmode input:checked ~ span::before {
+#menu #controls #sellmode input:checked ~ span::before {
   opacity: 0.2;
 }
-nav .controls .sellmode input:checked ~ span::after {
+#menu #controls #sellmode input:checked ~ span::after {
   opacity: 1;
 }
-nav .controls input[type=number] {
+#menu #controls input[type=number] {
   border-style: solid;
   border-color: #ccc;
   border-width: 1px 1px 1px 0;
@@ -192,10 +192,10 @@ nav .controls input[type=number] {
   font-size: 1.3em;
   font-family: "Merriweather", serif;
 }
-nav .controls input[type=number]:focus {
+#menu #controls input[type=number]:focus {
   background: rgba(255, 255, 255, 0.25);
 }
-nav .discounts::before, nav .settings::before {
+#menu #discounts::before, #menu #settings::before {
   content: "";
   position: absolute;
   right: 0;
@@ -205,18 +205,18 @@ nav .discounts::before, nav .settings::before {
   background: url("../img/ui/wood-horiz.png");
   background-size: cover;
 }
-nav .discounts h2, nav .settings h2 {
+#menu #discounts h2, #menu #settings h2 {
   font-family: "Merriweather", serif;
   margin: 0 0 3px 0;
 }
-nav .discounts label, nav .settings label {
+#menu #discounts label, #menu #settings label {
   display: inline-block;
   margin: 10px 5px;
 }
-nav .discounts label input[type=checkbox], nav .settings label input[type=checkbox] {
+#menu #discounts label input[type=checkbox], #menu #settings label input[type=checkbox] {
   display: none;
 }
-nav .discounts label span, nav .settings label span {
+#menu #discounts label span, #menu #settings label span {
   font-weight: 300;
   border-style: outset;
   border-width: 1px;
@@ -226,21 +226,21 @@ nav .discounts label span, nav .settings label span {
   opacity: 0.3;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.6);
 }
-nav .discounts label span:hover, nav .settings label span:hover {
+#menu #discounts label span:hover, #menu #settings label span:hover {
   cursor: pointer;
   border-style: solid;
   border-color: #ccc;
 }
-nav .discounts label span img, nav .settings label span img {
+#menu #discounts label span img, #menu #settings label span img {
   width: 20px;
   position: relative;
   top: 4px;
   right: 4px;
 }
-nav .discounts label input:checked ~ span, nav .settings label input:checked ~ span {
+#menu #discounts label input:checked ~ span, #menu #settings label input:checked ~ span {
   opacity: 1;
 }
-nav .discounts label input[type=radio], nav .settings label input[type=radio] {
+#menu #discounts label input[type=radio], #menu #settings label input[type=radio] {
   cursor: pointer;
   appearance: textfield;
   -moz-appearance: textfield;
@@ -253,64 +253,64 @@ nav .discounts label input[type=radio], nav .settings label input[type=radio] {
   top: 3px;
   outline: none;
 }
-nav .discounts label input[type=radio]:checked, nav .settings label input[type=radio]:checked {
+#menu #discounts label input[type=radio]:checked, #menu #settings label input[type=radio]:checked {
   opacity: 1;
 }
-nav .discounts label input[value=diamond], nav .settings label input[value=diamond] {
+#menu #discounts label input[value=diamond], #menu #settings label input[value=diamond] {
   background: url("../img/ui/diamond.png");
   background-size: contain;
   margin-left: 8px;
 }
-nav .discounts label input[value=ruby], nav .settings label input[value=ruby] {
+#menu #discounts label input[value=ruby], #menu #settings label input[value=ruby] {
   background: url("../img/ui/ruby.png");
   background-size: contain;
 }
-nav .discounts label input[value=jade], nav .settings label input[value=jade] {
+#menu #discounts label input[value=jade], #menu #settings label input[value=jade] {
   background: url("../img/ui/jade.png");
   background-size: contain;
 }
-nav .discounts {
+#menu #discounts {
   display: flex;
   flex-direction: column;
   padding-bottom: 10px;
 }
-nav .discounts div {
+#menu #discounts div {
   margin-top: 10px;
 }
-nav .discounts div:first-child {
+#menu #discounts div:first-child {
   margin-top: 20px;
 }
-nav .settings h2 {
+#menu #settings h2 {
   margin-top: 20px;
 }
-nav .settings input[name=short-numbers] ~ span:after {
+#menu #settings input[name=short-numbers] ~ span:after {
   content: " OFF";
 }
-nav .settings input[name=short-numbers]:checked ~ span:after {
+#menu #settings input[name=short-numbers]:checked ~ span:after {
   content: " ON";
 }
-nav .settings input[type=button] {
+#menu #settings input[type=button] {
   display: none;
 }
-nav .settings input[type=button] ~ span {
+#menu #settings input[type=button] ~ span {
   opacity: 1;
 }
-nav .settings input[type=button]:active ~ span {
+#menu #settings input[type=button]:active ~ span {
   opacity: 0.7;
 }
-nav footer {
+#menu footer {
   font-size: 0.65em;
   text-align: center;
   width: 100%;
   margin-top: 10px;
   color: #444;
 }
-nav footer a {
+#menu footer a {
   text-decoration: none;
   color: #777;
 }
 
-.shade {
+#shade {
   z-index: 1;
   display: block;
   position: fixed;
@@ -322,24 +322,24 @@ nav footer a {
   opacity: 0;
   transition: 0.3s ease-in-out;
 }
-.shade.visible {
+#shade.visible {
   opacity: 0.4;
 }
-.shade.hidden {
+#shade.hidden {
   display: none;
 }
 
-main {
+#buildings {
   padding: 0;
   display: flex;
   flex-direction: column;
   position: absolute;
   padding-bottom: 90px;
 }
-main div {
+#buildings div {
   display: flex;
 }
-main div img, main div input, main div .output {
+#buildings div img, #buildings div input, #buildings div .output {
   display: inline-block;
   height: 35px;
   border-style: solid;
@@ -347,14 +347,14 @@ main div img, main div input, main div .output {
   margin: 3px 0;
   vertical-align: top;
 }
-main div img {
+#buildings div img {
   border-radius: 3px 0 0 3px;
   border-width: 1px;
 }
-main div img, main div .output {
+#buildings div img, #buildings div .output {
   background: url("../img/ui/bg-noise.jpg");
 }
-main div input {
+#buildings div input {
   appearance: textfield;
   -moz-appearance: textfield;
   -webkit-appearance: textfield;
@@ -368,16 +368,16 @@ main div input {
   font-family: "Merriweather", serif;
   padding-bottom: 2px;
 }
-main div input:focus {
+#buildings div input:focus {
   background: rgba(255, 255, 255, 0.25);
 }
-main div .output {
+#buildings div .output {
   border-radius: 0 3px 3px 0;
   border-width: 1px 1px 1px 0;
   flex-grow: 1;
   padding: 7px 5px;
 }
-main div .output::before {
+#buildings div .output::before {
   content: "";
   position: relative;
   top: 2px;
@@ -388,7 +388,7 @@ main div .output::before {
   background-size: cover;
   background-image: url("../img/ui/money.png");
 }
-main div span.infinity {
+#buildings div span.infinity {
   position: relative;
   top: 3px;
   font-size: 1.5em;
@@ -404,27 +404,27 @@ input:invalid {
 }
 
 @media (max-width: 850px) {
-  nav.open {
+  #menu.open {
     bottom: 0;
     top: unset;
   }
 }
 @media (min-width: 500px) {
-  main {
+  #buildings {
     width: 400px;
     position: absolute;
     left: calc(50% - 200px);
   }
 }
 @media (min-width: 850px) {
-  nav {
+  #menu {
     width: 400px;
     padding: 10px;
     left: calc(50vw - 400px - 15px);
     position: absolute;
     top: 74px;
   }
-  nav::before, nav::after {
+  #menu::before, #menu::after {
     content: "";
     position: absolute;
     top: 0;
@@ -436,24 +436,24 @@ input:invalid {
     background-size: cover;
     z-index: 1;
   }
-  nav::after {
+  #menu::after {
     left: unset;
     right: 0;
     transform: scaleY(-1);
   }
-  nav .button {
+  #menu .button {
     display: none;
   }
-  nav .controls {
+  #menu #controls {
     padding: 10px;
   }
-  nav .controls::before, nav .discounts::before, nav .settings::before {
+  #menu #controls::before, #menu #discounts::before, #menu #settings::before {
     width: 100%;
   }
-  nav footer {
+  #menu footer {
     padding-bottom: 10px;
   }
-  nav footer::after {
+  #menu footer::after {
     content: "";
     position: absolute;
     bottom: 0;
@@ -465,7 +465,7 @@ input:invalid {
     background-size: cover;
   }
 
-  main {
+  #buildings {
     left: calc(50vw + 15px);
   }
 }

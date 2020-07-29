@@ -226,10 +226,7 @@ function getMultiplier(bldg) {
 			num = discount[1][bldg];
 			discount = discount[0];
 		}
-		if (IO.hasDiscount('fortune-'+num)) {
-			console.log(num);
-			mult *= (1 - discount);
-		}
+		if (IO.hasDiscount('fortune-'+num)) mult *= (1 - discount);
 	}
 
 	// buffs stack multiplicatively
@@ -338,25 +335,25 @@ function runAll() {
  */
 function initialize() {
 	// Store the nav menu and shade elements
-	IO.menu['nav'] = document.querySelector('nav');
-	IO.menu['shade'] = document.querySelector('.shade');
+	IO.menu['nav'] = document.querySelector('nav#menu');
+	IO.menu['shade'] = document.querySelector('#shade');
 
 	// Store building input and output fields
-	document.querySelectorAll('.buildings input').forEach(el => {
+	document.querySelectorAll('#buildings input').forEach(el => {
 		IO.buildings[el.name] = {};
 		IO.buildings[el.name]['in'] = el;
 	});
-	document.querySelectorAll('.buildings .output').forEach(el => {
+	document.querySelectorAll('#buildings .output').forEach(el => {
 		IO.buildings[el.id]['out'] = el;
 	});
 
 	// Store quantity and sell mode input elements
-	document.querySelectorAll('.controls input').forEach(el => {
+	document.querySelectorAll('#controls input').forEach(el => {
 		IO.controls[el.name] = el;
 	});
 
 	// Store discount checkbox elements // TODO split this into the different discount types?
-	document.querySelectorAll('.discounts input[type="checkbox"]').forEach(el => {
+	document.querySelectorAll('#discounts input[type="checkbox"]').forEach(el => {
 		IO.discounts[el.name] = {};
 		if(el.name === 'dotjeiess'){
 			IO.discounts[el.name].slots = {};
@@ -368,7 +365,7 @@ function initialize() {
 	});
 
 	// Store settings elements
-	document.querySelectorAll('.settings input').forEach(el => {
+	document.querySelectorAll('#settings input').forEach(el => {
 		IO.settings[el.name] = el;
 	});
 

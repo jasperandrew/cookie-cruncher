@@ -9,22 +9,22 @@ html(lang="en")
 		title Cookie Cruncher
 
 	body
-		h1 Cookie Cruncher
+		h1(id="title") Cookie Cruncher
 
-		div(class="shade hidden",onclick="IO.toggleMenu()")
+		div(id="shade",class="hidden",onclick="IO.toggleMenu()")
 
-		nav(class="menu")
+		nav(id="menu")
 			div(class="button",onclick="IO.toggleMenu()")
 				div
 			
-			div(class="controls")
-				label(class="sellmode")
+			div(id="controls")
+				label(id="sellmode")
 					input(type="checkbox",name="sellmode",onclick="runAll()")
 					span
 				input(type="number",name="quantity",min=0,max=9999,step=1,value=0,autocomplete="off",oninput="runAll()")
 			
-			div(class="discounts")
-				div(class="upgrades")
+			div(id="discounts")
+				div(id="upgrades")
 					h2 Upgrades
 					each upgrade in [['Season savings','season-savings'],['Santa\'s dominion','santas-dominion'],['Faberge egg','faberge-egg'],['Divine discount','divine-discount'],['Starter kit','starter-kit'],['Starter kitchen','starter-kitchen']]
 						label
@@ -33,7 +33,7 @@ html(lang="en")
 								img(alt=upgrade[0],src="img/discounts/"+upgrade[1]+".png")
 								!= upgrade[0]
 
-				div(class="fortunes")
+				div(id="fortunes")
 					h2 Fortunes
 					each num in ['001','002','003','004','005','006','007','008','009','010','011','012','013','014','015','016','017','100']
 						label
@@ -42,7 +42,7 @@ html(lang="en")
 								img(alt='Fortune #'+num,src="img/discounts/fortune-"+num+".png")
 								!= "#"+num
 
-				div(class="buffs")
+				div(id="buffs")
 					h2 Buffs
 					each buff in [['Everything must go','everything-must-go'],['Summon Crafty Pixies','summon-crafty-pixies']]
 						label
@@ -51,7 +51,7 @@ html(lang="en")
 								img(alt=buff[0],src="img/discounts/"+buff[1]+".png")
 								!= buff[0]
 				
-				div(class="auras")
+				div(id="auras")
 					h2 Auras
 					each aura in [['Earth shatterer','earth-shatterer'],['Fierce hoarder','fierce-hoarder'],['Reality bending','reality-bending']]
 						label
@@ -60,7 +60,7 @@ html(lang="en")
 								img(alt=aura[0],src="img/discounts/"+aura[1]+".png")
 								!= aura[0]
 				
-				div(class="spirits")
+				div(id="spirits")
 					h2 Spirits
 					each spirit in [['Dotjeiess','dotjeiess']]
 						label
@@ -71,8 +71,14 @@ html(lang="en")
 								input(type="radio",name=spirit[1]+"-slot",value="diamond",onclick="runAll()")
 								input(type="radio",name=spirit[1]+"-slot",value="ruby",onclick="runAll()")
 								input(type="radio",name=spirit[1]+"-slot",value="jade",onclick="runAll()")
+				
+				div(id="plants")
+					h2 Plants
+					div(id="garden")
+					- for (let i = 0; i < 36; i++)
+						div(class="plot")
 
-			div(class="settings")
+			div(id="settings")
 				h2 Settings
 				label
 					input(type="checkbox",name="short-numbers",onclick="runAll()",checked=true)
@@ -80,12 +86,13 @@ html(lang="en")
 				label
 					input(type="button",name="import-save-data",onclick="importSave()")
 					span="Import save data"
+			
 			footer
 				| Created by Jasper. Check it out on 
 				a(href="http://github.com/jasperandrew/cookie-cruncher/") Github
 				| !
 
-		main(class="buildings")
+		main(id="buildings")
 			each bldg in ['cursor','grandma','farm','mine','factory','bank','temple','wizard-tower','shipment','alchemy-lab','portal','time-machine','antimatter-condenser','prism','chancemaker','fractal-engine','javascript-console']
 				div
 					img(alt=bldg,src="img/buildings/"+bldg+".png")

@@ -345,22 +345,22 @@ function runAll() {
 
 function initialize() {
   // Store the nav menu and shade elements
-  IO.menu['nav'] = document.querySelector('nav');
-  IO.menu['shade'] = document.querySelector('.shade'); // Store building input and output fields
+  IO.menu['nav'] = document.querySelector('nav#menu');
+  IO.menu['shade'] = document.querySelector('#shade'); // Store building input and output fields
 
-  document.querySelectorAll('.buildings input').forEach(function (el) {
+  document.querySelectorAll('#buildings input').forEach(function (el) {
     IO.buildings[el.name] = {};
     IO.buildings[el.name]['in'] = el;
   });
-  document.querySelectorAll('.buildings .output').forEach(function (el) {
+  document.querySelectorAll('#buildings .output').forEach(function (el) {
     IO.buildings[el.id]['out'] = el;
   }); // Store quantity and sell mode input elements
 
-  document.querySelectorAll('.controls input').forEach(function (el) {
+  document.querySelectorAll('#controls input').forEach(function (el) {
     IO.controls[el.name] = el;
   }); // Store discount checkbox elements // TODO split this into the different discount types?
 
-  document.querySelectorAll('.discounts input[type="checkbox"]').forEach(function (el) {
+  document.querySelectorAll('#discounts input[type="checkbox"]').forEach(function (el) {
     IO.discounts[el.name] = {};
 
     if (el.name === 'dotjeiess') {
@@ -373,7 +373,7 @@ function initialize() {
     IO.discounts[el.name]['el'] = el;
   }); // Store settings elements
 
-  document.querySelectorAll('.settings input').forEach(function (el) {
+  document.querySelectorAll('#settings input').forEach(function (el) {
     IO.settings[el.name] = el;
   });
   runAll();
