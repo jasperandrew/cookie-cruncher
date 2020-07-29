@@ -72,6 +72,12 @@ html(lang="en")
 								input(type="radio",name=spirit[1]+"-slot",value="ruby",onclick="runAll()")
 								input(type="radio",name=spirit[1]+"-slot",value="jade",onclick="runAll()")
 				
+				div(id="plants")
+					h2 Plants
+					div(id="garden")
+					- for (let i = 0; i < 36; i++)
+						div(class="plot")
+
 			div(id="settings")
 				h2 Settings
 				label
