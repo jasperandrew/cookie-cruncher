@@ -7,7 +7,7 @@ function build {
     "Building files"
     npx babel src/ -d docs/
     npx sass src/:docs/
-    npx pug src/ -o docs/
+    npx pug3 src/ -o docs/
 }
 
 switch ($args[0]) {

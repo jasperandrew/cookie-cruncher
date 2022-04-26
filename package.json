@@ -22,14 +22,15 @@
     "@babel/core": "^7.17.9",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
-    "http-server": "^0.12.3",
-    "pug-cli": "^1.0.0-alpha6",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
+    "http-server": "^14.1.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "sass": "^1.51.0"
   },
   "dependencies": {
+    "@anduh/pug-cli": "^1.0.0-alpha8",
     "browserslist": "^4.16.5",
-    "caniuse-lite": "^1.0.30001332"
+    "caniuse-lite": "^1.0.30001332",
+    "pug": "^3.0.2"
   }
 }
