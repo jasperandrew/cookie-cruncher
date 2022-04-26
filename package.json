@@ -18,18 +18,18 @@
   },
   "homepage": "https://github.com/jasperandrew/cookie-cruncher#readme",
   "devDependencies": {
-    "@babel/cli": "^7.1.2",
-    "@babel/core": "^7.1.2",
-    "@babel/preset-env": "^7.1.0",
-    "@babel/preset-react": "^7.0.0",
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
     "http-server": "^0.12.3",
     "pug-cli": "^1.0.0-alpha6",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
-    "sass": "^1.26.10"
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "sass": "^1.51.0"
   },
   "dependencies": {
-    "browserslist": "^4.13.0",
-    "caniuse-lite": "^1.0.30001107"
+    "browserslist": "^4.16.5",
+    "caniuse-lite": "^1.0.30001332"
   }
 }
